@@ -1,19 +1,37 @@
 import 'package:flutter/material.dart';
 
 class TransactionsItemBody extends StatelessWidget {
-  const TransactionsItemBody({Key? key}) : super(key: key);
+  const TransactionsItemBody(
+      {Key? key,
+      required this.jobTitle,
+      required this.clintName,
+      required this.price,
+      required this.status,
+      this.data,
+      required this.color})
+      : super(key: key);
+
+  final String jobTitle, clintName, price, status;
+
+  final Color color;
+  final String? data;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 18.0),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(data ?? ''),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Text('UI/UX Design for Talents Valley LLC'),
-              Text('\$450'),
+            children: [
+              Text(jobTitle),
+              Text('\$ $price'),
             ],
           ),
           const SizedBox(
@@ -22,8 +40,11 @@ class TransactionsItemBody extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text('Omar Ziara'),
-              Text('Pending Approval'),
+              Text(clintName),
+              Text(
+                status,
+                style: TextStyle(color: color),
+              ),
             ],
           ),
         ],

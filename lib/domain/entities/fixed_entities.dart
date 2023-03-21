@@ -10,4 +10,9 @@ class FixedEntities {
   late final String description;
   late final int price;
   late final String id;
+
+  @override
+  String toString() {
+    return 'FixedEntities{itemName: $itemName, description: $description, price: $price, id: $id}';
+  }
 }

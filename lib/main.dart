@@ -1,46 +1,56 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:invoice_system/presentation/controller/invoice_bloc/invoice_bloc.dart';
 import 'package:invoice_system/presentation/screens/main_screen.dart';
 
-import 'core/error/exception.dart';
-import 'core/network/api_cosntants.dart';
-import 'data/models/invoice_model.dart';
+import 'core/services/services_locator.dart';
 
 void main() {
+  // getTransaction();
+
+  ServicesLocator().init();
   runApp(const MyApp());
-  _getInvoice();
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: MainScreen(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+            lazy: true,
+            create: (context) => getIt<InvoiceBloc>()
+              ..add(
+                GetInvoiceEvent(),
+              )),
+      ],
+      child: const MaterialApp(
+        home: MainScreen(),
+      ),
     );
   }
 }
 
-Future<List<InvoiceModel>> _getInvoice() async {
-  Options options = Options(
-    method: 'GET',
-    headers: {'Authorization': 'Bearer ${EndPoints.token}'},
-    validateStatus: (_) => true,
-    contentType: Headers.jsonContentType,
-    responseType: ResponseType.json,
-  );
-
-  var response = await Dio().get(EndPoints.getInvoiceListing, options: options);
-
-  // print(response.data['data']['invoices']);
-  if (response.statusCode == 200) {
-    return List<InvoiceModel>.from((response.data['data']['invoices'] as List)
-        .map((e) => InvoiceModel.fromJson(e))).toList();
-  } else {
-    throw ServerExceptions(
-      errorMessageModel: ErrorMessageModel(response.data.toString()),
-    );
-  }
-}
+// Future<List<TransactionModel>> getTransaction() async {
+//   Options options = Options(
+//     method: 'GET',
+//     headers: {'Authorization': 'Bearer ${EndPoints.token}'},
+//     validateStatus: (_) => true,
+//     contentType: Headers.jsonContentType,
+//     responseType: ResponseType.json,
+//   );
+//   var response = await Dio().get(EndPoints.getTransactions, options: options);
+//
+//   // print(response.data['data']['transactions']);
+//   if (response.statusCode == 200) {
+//     return List<TransactionModel>.from(
+//             (response.data['data']['transactions'] as List).map((e) => TransactionModel.fromJson(e)))
+//         .toList();
+//   } else {
+//     throw ServerExceptions(
+//       errorMessageModel: ErrorMessageModel(response.data.toString()),
+//     );
+//   }
+// }
