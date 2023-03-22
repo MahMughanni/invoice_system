@@ -21,56 +21,54 @@ class TransactionsListWidget extends StatelessWidget {
             height: height * .45,
             width: double.infinity,
             paddingTop: 0,
-            child: Expanded(
-              child: ListView.builder(
-                itemCount: data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  bool isSameDate = true;
-                  var data = state.invoiceList[index];
-                  var listData = state.invoiceList;
-                  var fixed = data.fixed;
-                  DateTime createdDate = DateTime.parse(data.createdAt);
+            child: ListView.builder(
+              itemCount: data.length,
+              itemBuilder: (BuildContext context, int index) {
+                bool isSameDate = true;
+                var data = state.invoiceList[index];
+                var listData = state.invoiceList;
+                var fixed = data.fixed;
+                DateTime createdDate = DateTime.parse(data.createdAt);
 
-                  String formattedDate =
-                      DateFormat.yMMMMEEEEd().format(createdDate);
+                String formattedDate =
+                    DateFormat.yMMMMEEEEd().format(createdDate);
 
-                  if (index == 0) {
-                    isSameDate = false;
-                  } else {
-                    final String prevDateString = listData[index - 1].createdAt;
-                    final DateTime prevDate = DateTime.parse(prevDateString);
-                    isSameDate = createdDate.isSameDate(prevDate);
-                  }
-                  if (index == 0 || !(isSameDate)) {
-                    return GestureDetector(
-                      onTap: () {},
-                      child: TransactionsItemBody(
-                        jobTitle: fixed.first.itemName,
-                        clintName: data.client.firstName,
-                        price: fixed.first.price.toString(),
-                        status: data.status.toString(),
-                        color: Helper.setColor(data),
-                        data: calculateDifference(createdDate) == -1
-                            ? 'Yesterday'
-                            : calculateDifference(createdDate) == 0
-                                ? 'Today'
-                                : formattedDate.toString(),
-                      ),
-                    );
-                  } else {
-                    return GestureDetector(
-                      onTap: () {},
-                      child: TransactionsItemBody(
-                        jobTitle: fixed.first.itemName,
-                        clintName: data.client.firstName,
-                        price: fixed.first.price.toString(),
-                        status: data.status.toString(),
-                        color: Helper.setColor(data),
-                      ),
-                    );
-                  }
-                },
-              ),
+                if (index == 0) {
+                  isSameDate = false;
+                } else {
+                  final String prevDateString = listData[index - 1].createdAt;
+                  final DateTime prevDate = DateTime.parse(prevDateString);
+                  isSameDate = createdDate.isSameDate(prevDate);
+                }
+                if (index == 0 || !(isSameDate)) {
+                  return GestureDetector(
+                    onTap: () {},
+                    child: TransactionsItemBody(
+                      jobTitle: fixed.first.itemName,
+                      clintName: data.client.firstName,
+                      price: fixed.first.price.toString(),
+                      status: data.status.toString(),
+                      color: Helper.setColor(data),
+                      data: calculateDifference(createdDate) == -1
+                          ? 'Yesterday'
+                          : calculateDifference(createdDate) == 0
+                              ? 'Today'
+                              : formattedDate.toString(),
+                    ),
+                  );
+                } else {
+                  return GestureDetector(
+                    onTap: () {},
+                    child: TransactionsItemBody(
+                      jobTitle: fixed.first.itemName,
+                      clintName: data.client.firstName,
+                      price: fixed.first.price.toString(),
+                      status: data.status.toString(),
+                      color: Helper.setColor(data),
+                    ),
+                  );
+                }
+              },
             ));
       },
     );

@@ -6,6 +6,7 @@ class ImageManger {
   static const pageImage = '$assetsImagePath/page.svg';
   static const warningImage = '$assetsImagePath/warning.png';
   static const withdrawImage = '$assetsImagePath/Withdraw.png';
+  static const logInImage = '$assetsImagePath/logo.png';
 }
 
 class IconsManger {
@@ -20,6 +21,7 @@ class IconsManger {
 
 class ColorManger {
   static const Color primaryColor = Color(0xff6492EE);
+  static const Color formFieldFiledColor = Color(0xffF2F2F2);
   static const Color unSelectedIconColor = Color(0xffBEC2C6);
   static const Color backgroundBtnColor = Color(0xffF3F6FF);
   static const Color primaryFontColor = Colors.black;
@@ -95,7 +97,7 @@ class AppConstantsRadius {
   static const double newArrivalContainerRadius = 15.0;
 }
 
-class AppFontWeightConstants {
+class AppConstFontWeight {
   static const FontWeight bold = FontWeight.w700;
   static const FontWeight regular = FontWeight.w400;
   static const FontWeight thin = FontWeight.w100;

@@ -5,6 +5,7 @@ class EndPoints {
   static const int receiveTimeout = 35000;
   static const int connectTimeout = 35000;
 
+  static const String login = '$baseUrl/user/login';
   static const String getInvoiceListing = '$baseUrl/invoice/listing';
   static const String getTransactions = '$baseUrl/transactions/list';
 

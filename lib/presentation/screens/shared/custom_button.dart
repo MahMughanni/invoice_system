@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:invoice_system/utils/ImageManger.dart';
+import 'package:invoice_system/utils/appConst.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({Key? key, required this.onTap, required this.title})
@@ -14,15 +14,15 @@ class CustomButton extends StatelessWidget {
       style: ElevatedButton.styleFrom(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(7)),
         minimumSize: const Size(double.infinity, 44),
-        backgroundColor: Colors.white,
+        backgroundColor: ColorManger.primaryColor,
       ),
       onPressed: onTap,
       child: Text(
         title,
         style: const TextStyle(
           fontSize: 16,
-          color: ColorManger.primaryFontColor,
-          fontWeight: AppFontWeightConstants.regular,
+          color: Colors.white,
+          fontWeight: AppConstFontWeight.medium,
         ),
       ),
     );

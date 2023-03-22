@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:invoice_system/presentation/screens/shared/main_container.dart';
-import 'package:invoice_system/utils/ImageManger.dart';
+import 'package:invoice_system/utils/appConst.dart';
 
 class HeaderWidget extends StatelessWidget {
-  const HeaderWidget({Key? key}) : super(key: key);
+  const HeaderWidget({Key? key, required this.balance}) : super(key: key);
+  final String balance;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class HeaderWidget extends StatelessWidget {
             children: [
               RichText(
                 text: TextSpan(
-                  text: '\$200',
+                  text: '\$ $balance',
                   style: const TextStyle(
                     fontSize: 25,
                     color: Colors.black,
@@ -37,7 +38,7 @@ class HeaderWidget extends StatelessWidget {
                   ),
                   children: [
                     TextSpan(
-                      text: '.00',
+                      text: '',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,

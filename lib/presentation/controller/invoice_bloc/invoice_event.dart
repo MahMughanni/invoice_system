@@ -1,5 +1,8 @@
 part of 'invoice_bloc.dart';
 
 @immutable
+class GetInvoiceEvent {
+  String token;
 
-class GetInvoiceEvent  {}
+  GetInvoiceEvent(this.token);
+}

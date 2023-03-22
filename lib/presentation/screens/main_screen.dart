@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:invoice_system/presentation/controller/localData/shared_perf.dart';
+import 'package:invoice_system/presentation/screens/login_screen.dart';
 
-import '../../core/services/services_locator.dart';
-import '../../utils/ImageManger.dart';
-import '../controller/invoice_bloc/invoice_bloc.dart';
+import '../../utils/appConst.dart';
 import 'help_screen.dart';
 import 'home_screen.dart';
 
@@ -18,7 +18,7 @@ class _MainScreenState extends State<MainScreen> {
   final List screens = [
     const HomeScreen(),
     Container(),
-    const HomeScreen(),
+    Container(),
     const HelpScreen(),
   ];
 
@@ -29,6 +29,19 @@ class _MainScreenState extends State<MainScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
+        leading: IconButton(
+          onPressed: () {
+            SharedPrefController().clear();
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (BuildContext context) {
+              return LoginScreen();
+            }));
+          },
+          icon: const Icon(
+            Icons.logout_sharp,
+            color: Colors.black,
+          ),
+        ),
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 20.0),
