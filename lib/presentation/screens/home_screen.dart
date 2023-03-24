@@ -16,7 +16,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManger.backgroundColor,
+      backgroundColor: AppColor.backgroundColor,
       body: BlocProvider(
         create: (context) => getIt<InvoiceBloc>()
           ..add(GetInvoiceEvent(SharedPrefController().getUser().accessToken)),

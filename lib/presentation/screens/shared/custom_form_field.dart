@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:invoice_system/utils/appConst.dart';
 
-class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField({
+class CustomFormField extends StatelessWidget {
+  const CustomFormField({
     Key? key,
     required this.hintText,
     this.validator,
@@ -27,7 +27,7 @@ class CustomTextFormField extends StatelessWidget {
       validator: validator,
       decoration: InputDecoration(
         suffixIcon: suffixIcon,
-        fillColor: ColorManger.formFieldFiledColor,
+        fillColor: AppColor.formFieldFiledColor,
         filled: true,
         border: OutlineInputBorder(
           borderSide: BorderSide.none,

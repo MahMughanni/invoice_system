@@ -19,7 +19,7 @@ class LoginHeaderWidget extends StatelessWidget {
       width: width * .5,
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage(ImageManger.logInImage),
+          image: AssetImage(ImageManger.logoImage),
           fit: BoxFit.contain,
         ),
       ),

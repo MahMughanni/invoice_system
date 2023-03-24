@@ -20,8 +20,7 @@ class InvoiceModel extends InvoiceEntities {
     return InvoiceModel(
       client: ClientModel.fromJson(json['client']),
       currency: json['currency'],
-      fixed:
-          List.from(json['fixed']).map((e) => FixedModel.fromJson(e)).toList(),
+      fixed: List.from(json['fixed']).map((e) => FixedModel.fromJson(e)).toList(),
       freelancer: List.from(json['fixed'])
           .map((e) => FreelancerModel.fromJson(e))
           .toList(),

@@ -3,13 +3,22 @@ class FixedEntities {
     required this.itemName,
     required this.description,
     required this.price,
-    required this.id,
+    this.id,
   });
 
   late final String itemName;
   late final String description;
   late final int price;
-  late final String id;
+  final String? id;
+
+  Map<String, dynamic> toJson() {
+    return {
+      "itemName": itemName,
+      "description": description,
+      "price": price,
+      "id": id,
+    };
+  }
 
   @override
   String toString() {

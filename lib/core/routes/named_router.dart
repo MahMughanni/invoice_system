@@ -1,12 +1,12 @@
-class NamedRouter {
-  static const String mainScreen = '/main_screen';
+class ScreenName {
+  static const String splashScreen = '/';
   static const String homeScreen = '/home_screen';
-  static const String amountScreen = '/amount_screen';
-  static const String bankAccountsScreen = '/bank_accounts_screen';
-  static const String newBankAccountScreen = '/new_bank_account_screen';
-  static const String newRecipientScreen = '/new_recipient_screen';
-  static const String recipientsScreen = '/recipients_screen';
-  static const String editRecipientScreen = '/edit_recipients_screen';
-  static const String cashScreen = '/cash_screen';
-  static const String withdrawScreen = '/withdraw_screen';
+  static const String loginScreen = '/login_screen';
+  static const String createInvoiceScreen = '/create_invoice';
+  static const String createLinkScreen = '/create_link';
+  static const String previewScreen = '/preview_screen';
+  static const String mainScreen = '/main_screen';
+
+  static const String invoiceListTabsScreen = '/invoice_list_tabs_screen';
+  static const String showDetailsInvoiceScreen = '/show_details_invoice_screen';
 }

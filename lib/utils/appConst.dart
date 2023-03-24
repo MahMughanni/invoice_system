@@ -6,7 +6,7 @@ class ImageManger {
   static const pageImage = '$assetsImagePath/page.svg';
   static const warningImage = '$assetsImagePath/warning.png';
   static const withdrawImage = '$assetsImagePath/Withdraw.png';
-  static const logInImage = '$assetsImagePath/logo.png';
+  static const logoImage = '$assetsImagePath/logo.png';
 }
 
 class IconsManger {
@@ -19,7 +19,7 @@ class IconsManger {
   static const closeIcon = '$iconsPath/close.svg';
 }
 
-class ColorManger {
+class AppColor {
   static const Color primaryColor = Color(0xff6492EE);
   static const Color formFieldFiledColor = Color(0xffF2F2F2);
   static const Color unSelectedIconColor = Color(0xffBEC2C6);
@@ -38,6 +38,33 @@ class ColorManger {
 
   static const Color pendingStateColor = Color(0xffDAA545);
   static const Color deleteBtnBackground = Color(0xffD84242);
+
+  static const int primaryTextColor = 0xFF000000;
+  static const int primaryButtonColor = 0xFF4375FF;
+  static const int whiteTextButtonColor = 0xFFFAF9FC;
+  static const int borderColor = 0xFFE2E2E2;
+  static const int borderColorUnSelected = 0xFFBEC2C6;
+  static const int backGroundTextFieldColor = 0xFFFFFFFF;
+  static const int textAboveFieldColor = 0xFF6C6969;
+  static const int mainBlue = 0xFF4375FF;
+  static const int sentColor = 0xFF0044FF;
+  static const int pendColor = 0xFFDAA545;
+  static const int addBankAccount = 0xFF6492EE;
+  static const int scaffoldBack = 0xFFF2F4F7;
+  static const int currentBalance = 0xFFF505050;
+  static const int gray = 0xFFF8C8C8C;
+  static const int subtext = 0xFFF000000B5;
+  static const int redDelete = 0xFFFD84242;
+  static const int green = 0xFFF70B668;
+  static const int redWarning = 0xFFFEE404C;
+  static const int backGroundBottomSheet = 0xFF505050;
+  static const int backGroundContainer = 0xffFFF9F0;
+  static const int borderContainer = 0xffF3F3F3;
+  static const int white = 0xffFFFFFF;
+  static const int backGroundSnackBarFalse = 0xFFFCF3E4;
+  static const int borderSnackBarFalse = 0xFFDAA545;
+  static const int backGroundSnackBarTrue = 0xFFE9F7E7;
+  static const int borderSnackBarTrue = 0xFF70B668;
 }
 
 class StringManger {
@@ -107,4 +134,21 @@ class AppConstFontWeight {
   static const FontWeight semiBold = FontWeight.w600;
   static const FontWeight extraBold = FontWeight.w800;
   static const FontWeight mostThick = FontWeight.w900;
+}
+
+class AppSizes {
+  static const double paddingVertival = 10;
+  static const double paddingHorizontal = 20;
+  static const double totalAmountNo = 30;
+  static const double amount = 25;
+  static const double varyLarge = 23;
+  static const double textDefaultSize = 16;
+  static const double textLarge = 20;
+  static const double textSemiLarge = 18;
+  static const double textMedium = 15;
+  static const double textSmall = 12;
+  static const double textVerySmall = 13;
+  static const double textTiny = 12;
+  static const double textVeryTiny = 10;
+  static const double hightAppBar = 80;
 }

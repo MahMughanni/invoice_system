@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:invoice_system/presentation/controller/localData/shared_perf.dart';
-import 'package:invoice_system/presentation/screens/login_screen.dart';
 
 import '../../utils/appConst.dart';
 import 'help_screen.dart';
@@ -34,7 +33,7 @@ class _MainScreenState extends State<MainScreen> {
             SharedPrefController().clear();
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (BuildContext context) {
-              return LoginScreen();
+              return Container();
             }));
           },
           icon: const Icon(
@@ -53,12 +52,12 @@ class _MainScreenState extends State<MainScreen> {
           )
         ],
         elevation: 0,
-        backgroundColor: ColorManger.backgroundColor,
+        backgroundColor: AppColor.backgroundColor,
         title: const Text(
           StringManger.home,
           style: TextStyle(
             fontSize: 20,
-            color: ColorManger.primaryFontColor,
+            color: AppColor.primaryFontColor,
           ),
         ),
       ),
@@ -66,8 +65,8 @@ class _MainScreenState extends State<MainScreen> {
         type: BottomNavigationBarType.fixed,
         onTap: onTapBottom,
         currentIndex: currentIndex,
-        selectedItemColor: ColorManger.primaryColor,
-        unselectedItemColor: ColorManger.unSelectedIconColor,
+        selectedItemColor: AppColor.primaryColor,
+        unselectedItemColor: AppColor.unSelectedIconColor,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(

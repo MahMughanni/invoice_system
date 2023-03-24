@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:invoice_system/core/routes/app_router.dart';
 import 'package:invoice_system/core/routes/named_router.dart';
-import 'package:invoice_system/presentation/screens/shared/main_container.dart';
 import 'package:invoice_system/utils/appConst.dart';
 
-import '../../../core/routes/app_router.dart';
+import 'mainCont.dart';
 
 class HeaderWidget extends StatelessWidget {
-  const HeaderWidget({Key? key, required this.balance}) : super(key: key);
-  final String balance;
+  const HeaderWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
 
     return MainContainer(
-      height: height * .24,
+      height: height * .25,
       width: double.infinity,
       paddingTop: AppConstantsPadding.screenVerticalPadding,
       child: Column(
@@ -33,7 +32,7 @@ class HeaderWidget extends StatelessWidget {
             children: [
               RichText(
                 text: TextSpan(
-                  text: '\$ $balance',
+                  text: '\$200',
                   style: const TextStyle(
                     fontSize: 25,
                     color: Colors.black,
@@ -41,7 +40,7 @@ class HeaderWidget extends StatelessWidget {
                   ),
                   children: [
                     TextSpan(
-                      text: '',
+                      text: '.00',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
@@ -58,7 +57,7 @@ class HeaderWidget extends StatelessWidget {
                 color: Colors.blue,
                 onPressed: () {},
                 icon: Image.asset(
-                  ImageManger.withdrawImage,
+                  ImageManger.logoImage,
                 ),
               ),
             ],
@@ -69,7 +68,7 @@ class HeaderWidget extends StatelessWidget {
               TextButton.icon(
                   style: TextButton.styleFrom(
                     minimumSize: const Size(145, 35),
-                    backgroundColor: AppColor.backgroundBtnColor,
+                    backgroundColor: AppColor.backgroundColor,
                   ),
                   onPressed: () {
                     AppRouter.goTo(screenName: ScreenName.createLinkScreen);
@@ -79,7 +78,7 @@ class HeaderWidget extends StatelessWidget {
               TextButton.icon(
                   style: TextButton.styleFrom(
                     minimumSize: const Size(145, 35),
-                    backgroundColor: AppColor.backgroundBtnColor,
+                    backgroundColor: AppColor.backgroundColor,
                   ),
                   onPressed: () {
                     AppRouter.goTo(screenName: ScreenName.createInvoiceScreen);

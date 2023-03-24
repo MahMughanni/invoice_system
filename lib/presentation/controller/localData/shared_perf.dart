@@ -3,9 +3,12 @@ import 'dart:convert';
 import 'package:invoice_system/data/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../data/models/create_invoice_model.dart';
+
 enum PrefKeys {
   user,
   token,
+  id,
 }
 
 class SharedPrefController {
@@ -30,6 +33,9 @@ class SharedPrefController {
       userEncoded,
     );
   }
+
+
+
 
   UserModel getUser() {
     String userJson = preferences.getString(PrefKeys.user.toString()) ?? '';

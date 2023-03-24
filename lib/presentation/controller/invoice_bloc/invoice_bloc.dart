@@ -21,14 +21,12 @@ class InvoiceBloc extends Bloc<GetInvoiceEvent, InvoiceInitialState> {
 
   FutureOr<void> _getAllInvoices(
       GetInvoiceEvent event, Emitter<InvoiceInitialState> emit) async {
-    final response =
-        await invoiceListUseCase(InvoiceParameter(token: event.token));
+    final response = await invoiceListUseCase(InvoiceParameter(token: event.token));
 
     response.fold(
         (l) => emit(state.copyWith(
               requestState: RequestState.error,
             )), (r) {
-      // print(r);
       emit(state.copyWith(
         invoiceList: r,
         requestState: RequestState.loaded,

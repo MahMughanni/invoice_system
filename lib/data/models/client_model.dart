@@ -9,9 +9,9 @@ class ClientModel extends ClientEntities {
 
   factory ClientModel.fromJson(Map<String, dynamic> json) {
     return ClientModel(
-      firstName: json['firstName'],
-      lastName: json['lastName'],
-      email: json['email'],
+      firstName: json['firstName'] ?? '',
+      lastName: json['lastName'] ?? '',
+      email: json['email'] ?? '',
     );
   }
 }

@@ -17,3 +17,5 @@ class FreelancerModel extends FreelancerEntities {
     );
   }
 }
+
+

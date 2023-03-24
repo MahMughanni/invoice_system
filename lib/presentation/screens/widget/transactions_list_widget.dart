@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:invoice_system/core/routes/app_router.dart';
+import 'package:invoice_system/core/routes/named_router.dart';
 import 'package:invoice_system/presentation/controller/invoice_bloc/invoice_bloc.dart';
 import 'package:invoice_system/presentation/screens/shared/main_container.dart';
 import 'package:invoice_system/utils/extentions/date_ext.dart';
@@ -18,7 +20,7 @@ class TransactionsListWidget extends StatelessWidget {
       builder: (context, state) {
         var data = state.invoiceList;
         return MainContainer(
-            height: height * .45,
+            height: height * .50,
             width: double.infinity,
             paddingTop: 0,
             child: ListView.builder(
@@ -29,9 +31,7 @@ class TransactionsListWidget extends StatelessWidget {
                 var listData = state.invoiceList;
                 var fixed = data.fixed;
                 DateTime createdDate = DateTime.parse(data.createdAt);
-
-                String formattedDate =
-                    DateFormat.yMMMMEEEEd().format(createdDate);
+                String formattedDate = DateFormat.yMMMMEEEEd().format(createdDate);
 
                 if (index == 0) {
                   isSameDate = false;
@@ -42,7 +42,11 @@ class TransactionsListWidget extends StatelessWidget {
                 }
                 if (index == 0 || !(isSameDate)) {
                   return GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      AppRouter.navigatorKey.currentState!.pushNamed(
+                          ScreenName.previewScreen,
+                          arguments: state.invoiceList[index].id.toString());
+                    },
                     child: TransactionsItemBody(
                       jobTitle: fixed.first.itemName,
                       clintName: data.client.firstName,
@@ -58,7 +62,11 @@ class TransactionsListWidget extends StatelessWidget {
                   );
                 } else {
                   return GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      AppRouter.navigatorKey.currentState!.pushNamed(
+                          ScreenName.previewScreen,
+                          arguments: state.invoiceList[index].id.toString());
+                    },
                     child: TransactionsItemBody(
                       jobTitle: fixed.first.itemName,
                       clintName: data.client.firstName,

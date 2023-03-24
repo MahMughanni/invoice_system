@@ -41,7 +41,7 @@ extension StringValidateExtention on String {
   }
 
   bool get isValidNumber {
-    final phoneRegExp = RegExp(r"^\+?\d{12}$");
+    final phoneRegExp = RegExp(r'^[0-9]+$');
     return phoneRegExp.hasMatch(this);
   }
 }

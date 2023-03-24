@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:invoice_system/utils/appConst.dart';
 
-class CustomButton extends StatelessWidget {
-  CustomButton({
+class CustomMainButton extends StatelessWidget {
+  CustomMainButton({
     required this.title,
     this.onPressed,
     super.key,
@@ -36,7 +36,7 @@ class CustomButton extends StatelessWidget {
           backgroundColor: textColorIsWhite == false
               ? Colors.white
               : const Color(
-                  AppColor.primaryButtonColor,
+            AppColor.primaryButtonColor,
                 ),
           elevation: 1,
         ),

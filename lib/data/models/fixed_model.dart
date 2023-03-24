@@ -5,7 +5,7 @@ class FixedModel extends FixedEntities {
     required super.itemName,
     required super.description,
     required super.price,
-    required super.id,
+    super.id,
   });
 
   factory FixedModel.fromJson(Map<String, dynamic> json) {
@@ -15,4 +15,6 @@ class FixedModel extends FixedEntities {
         price: json['price'],
         id: json['_id']);
   }
+
+
 }
