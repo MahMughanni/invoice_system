@@ -10,6 +10,7 @@ import 'package:invoice_system/domain/entities/service_entities.dart';
 import '../entities/create_invoice_entities.dart';
 import '../entities/transactions_entities.dart';
 import '../usecase/change_status_usecase.dart';
+import '../usecase/create_Service_usecase.dart';
 import '../usecase/create_new_invoice_usecase.dart';
 import '../usecase/get_transaction_usecase.dart';
 import '../usecase/invoice_details_usecase.dart';
@@ -25,6 +26,9 @@ abstract class BaseInvoiceRepository {
   Future<Either<Failure, String>> createNewInvoice(
       CreateInvoiceParameter parameter);
 
+  Future<Either<Failure, String>> createNewService(
+      CreateServiceParameter parameter);
+
   Future<Either<Failure, InvoiceDetailsModel>> getInvoiceDetails(
       InvoiceDetailsParameter parameter);
 
@@ -34,5 +38,6 @@ abstract class BaseInvoiceRepository {
   Future<Either<Failure, List<ServiceEntities>>> getServiceList(
       NoParameters parameter);
 
-  Future<Either<Failure, Response>> changeStateById(ChangeStatusParameter parameter);
+  Future<Either<Failure, Response>> changeStateById(
+      ChangeStatusParameter parameter);
 }

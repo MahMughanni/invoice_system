@@ -9,3 +9,5 @@ class AddFixedItemState {
     required this.items,
   });
 }
+
+class AddFixedItemLoaded {}

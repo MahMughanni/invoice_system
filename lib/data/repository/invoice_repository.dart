@@ -11,6 +11,7 @@ import 'package:invoice_system/domain/entities/service_entities.dart';
 import 'package:invoice_system/domain/entities/transactions_entities.dart';
 import 'package:invoice_system/domain/repository/base_invoice_repository.dart';
 import 'package:invoice_system/domain/usecase/change_status_usecase.dart';
+import 'package:invoice_system/domain/usecase/create_Service_usecase.dart';
 import 'package:invoice_system/domain/usecase/create_new_invoice_usecase.dart';
 import 'package:invoice_system/domain/usecase/get_transaction_usecase.dart';
 import 'package:invoice_system/domain/usecase/invoice_details_usecase.dart';
@@ -95,6 +96,18 @@ class InvoiceRepository extends BaseInvoiceRepository {
   Future<Either<Failure, Response>> changeStateById(
       ChangeStatusParameter parameter) async {
     final response = await baseInvoiceDataSource.changeStatusById(parameter);
+
+    try {
+      return right(response);
+    } on ServerExceptions catch (error) {
+      return Left(ServerFailure(error.errorMessageModel.error.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> createNewService(
+      CreateServiceParameter parameter) async {
+    final response = await baseInvoiceDataSource.createService(parameter);
 
     try {
       return right(response);

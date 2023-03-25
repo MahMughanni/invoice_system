@@ -9,6 +9,9 @@ import 'package:invoice_system/domain/entities/create_invoice_entities.dart';
 import 'package:invoice_system/domain/usecase/create_new_invoice_usecase.dart';
 import 'package:meta/meta.dart';
 
+import '../../screens/invoice_flow/create_invoice.dart';
+import '../cubit/add_fixed_item_cubit.dart';
+
 part 'create_invoice_event.dart';
 
 part 'create_invoice_state.dart';
@@ -22,7 +25,6 @@ class CreateInvoiceBloc extends Bloc<CreateEvent, CreateInvoiceSuccess> {
     this.createNewInvoiceUseCase,
   ) : super(CreateInvoiceSuccess()) {
     on<CreateInvoiceEvent>(createInvoice);
-    on<AddFixedEvent>(_addFixedEvent);
   }
 
   FutureOr<void> createInvoice(
@@ -42,14 +44,14 @@ class CreateInvoiceBloc extends Bloc<CreateEvent, CreateInvoiceSuccess> {
     });
   }
 
-  FutureOr<void> _addFixedEvent(
-      AddFixedEvent event, Emitter<CreateInvoiceState> emit) async {
-    final List<Widget> addToList = List.from((state).servesList);
-
-    emit(
-      CreateInvoiceSuccess(
-        servesList: addToList,
-      ),
-    );
-  }
+// FutureOr<void> _addFixedEvent(
+//     AddFixedEvent event, Emitter<CreateInvoiceState> emit) async {
+//   final List<Widget> addToList = List.from((state).servesList);
+//
+//   emit(
+//     CreateInvoiceSuccess(
+//       servesList: addToList,
+//     ),
+//   );
+// }
 }

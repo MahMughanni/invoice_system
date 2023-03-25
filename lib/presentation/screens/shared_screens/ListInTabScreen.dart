@@ -70,6 +70,7 @@ class ServiceListBody extends StatelessWidget {
             itemCount: state.serviceList.length,
             separatorBuilder: (context, index) => const Divider(),
             itemBuilder: (context, index) {
+              var fixedData = data[index].fixed;
               var itemName = data[index]
                   .fixed
                   .map((e) => e.itemName.toString())
@@ -91,10 +92,10 @@ class ServiceListBody extends StatelessWidget {
                       child: ContentSheetStatus(
                         id: data[index].id,
                         status: data[index].status,
-                        time: '',
-                        title: '',
-                        subTitle: '',
-                        subTotal: '',
+                        time: data[index].createdAt,
+                        title: data[index].fixed.first.itemName,
+                        subTitle: data[index].fixed.first.description,
+                        subTotal: data[index].subTotal.toString(),
                       ),
                     ),
                   );
@@ -107,7 +108,11 @@ class ServiceListBody extends StatelessWidget {
                     SizedBox(
                       width: 200,
                       child: Text(
-                        data[index].fixed.first.itemName,
+                        index == 0
+                            ? fixedData.first.itemName.isEmpty
+                                ? 'Nothing '
+                                : fixedData.first.itemName
+                            : '',
                         style:
                             const TextStyle(fontSize: AppSizes.textDefaultSize),
                         maxLines: 1,
@@ -116,7 +121,9 @@ class ServiceListBody extends StatelessWidget {
                     SizedBox(
                       width: 200,
                       child: Text(
-                        data[index].fixed.first.description.toString(),
+                        fixedData.first.description.toString().isEmpty
+                            ? 'dd'
+                            : fixedData.first.description.toString(),
                         style: const TextStyle(
                             color: Color(AppColor.gray),
                             fontSize: AppSizes.textTiny),
@@ -130,8 +137,10 @@ class ServiceListBody extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(data[index].fixed.first.price.toString()),
-                    Text(data[index].status.toString(),
+                    Text(fixedData.first.price.toString().isEmpty
+                        ? '0.0'
+                        : fixedData.first.price.toString()),
+                    Text(data[index].status.toString() ?? [].toString(),
                         style: TextStyle(
                             color: Helper.setColor(data[index].status))),
                   ],

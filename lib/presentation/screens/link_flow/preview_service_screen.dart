@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:invoice_system/core/routes/app_router.dart';
 import 'package:invoice_system/core/routes/named_router.dart';
 import 'package:invoice_system/presentation/controller/create_invoice_bloc/create_invoice_bloc.dart';
+import 'package:invoice_system/presentation/controller/create_service_bloc/create_service_bloc.dart';
 
 import 'package:invoice_system/presentation/controller/invoice_details_bloc/invoice_details_bloc.dart';
 import 'package:invoice_system/presentation/controller/localData/shared_perf.dart';
@@ -13,18 +14,20 @@ import 'package:invoice_system/utils/helper.dart';
 
 import '../../../core/services/services_locator.dart';
 import '../../../domain/entities/create_invoice_entities.dart';
+import '../../../domain/usecase/create_Service_usecase.dart';
 import '../shared_widget/custom_button.dart';
 
-class PreviewScreen extends StatelessWidget {
-  const PreviewScreen({Key? key, required this.createInvoiceEntities})
-      : super(key: key);
-  final CreateInvoiceEntities createInvoiceEntities;
+class PreviewServiceScreen extends StatelessWidget {
+  const PreviewServiceScreen({
+    Key? key,
+    required this.createInvoiceEntities,
+  }) : super(key: key);
+  final CreateServiceParameter createInvoiceEntities;
 
   @override
   Widget build(BuildContext context) {
-    print(" ID :${createInvoiceEntities.id.toString()}");
     return BlocProvider(
-      create: (context) => getIt<CreateInvoiceBloc>(),
+      create: (context) => getIt<CreateServiceBloc>(),
       child: Scaffold(
         appBar: SharedAppBar(title: 'Preview Invoice', isBack: true),
         body: Padding(
@@ -57,11 +60,11 @@ class PreviewScreen extends StatelessWidget {
 class PreviewScreenBody extends StatelessWidget {
   const PreviewScreenBody({Key? key, required this.createInvoiceEntities})
       : super(key: key);
-  final CreateInvoiceEntities createInvoiceEntities;
+  final CreateServiceParameter createInvoiceEntities;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CreateInvoiceBloc, CreateInvoiceSuccess>(
+    return BlocBuilder<CreateServiceBloc, CreateServiceSuccess>(
       builder: (context, state) {
         // print(state.invoiceDetailsModel.client);
         return Column(
@@ -72,17 +75,14 @@ class PreviewScreenBody extends StatelessWidget {
               textColorIsWhite: true,
               onPressed: () {
                 //
-                BlocProvider.of<CreateInvoiceBloc>(context).add(
-                  CreateInvoiceEvent(
-                      createInvoiceEntities: createInvoiceEntities,
-                      currency: 'USD',
-                      token: SharedPrefController().getUser().accessToken),
+                BlocProvider.of<CreateServiceBloc>(context).add(
+                  CreateServiceRequested(parameter: createInvoiceEntities),
                 );
 
-                Future.delayed(const Duration(microseconds: 500), () {
-                  AppRouter.goToAndRemove(
-                      screenName: ScreenName.invoiceListTabsScreen);
-                });
+                // Future.delayed(const Duration(microseconds: 500), () {
+                //   AppRouter.goToAndRemove(
+                //       screenName: ScreenName.invoiceListTabsScreen);
+                // });
                 UtilsConfig.showSnackBarMessage(
                     message: 'Your invoice is now under review.', status: true);
               },
@@ -111,7 +111,7 @@ class ContentInPreviewCard extends StatelessWidget {
     required this.createInvoiceEntities,
   });
 
-  final CreateInvoiceEntities createInvoiceEntities;
+  final CreateServiceParameter createInvoiceEntities;
 
   // List<dynamic> fixed = [];
 
@@ -131,9 +131,9 @@ class ContentInPreviewCard extends StatelessWidget {
             style: TextStyle(
                 fontSize: AppSizes.textSemiLarge, fontWeight: FontWeight.bold),
           ),
-          title: Text(
-            '#${createInvoiceEntities.id?.toString() ?? '0000'}',
-            style: const TextStyle(fontSize: AppSizes.textVerySmall),
+          title: const Text(
+            '#0000',
+            style: TextStyle(fontSize: AppSizes.textVerySmall),
           ),
           trailing: SizedBox(
               width: 50, height: 20, child: Image.asset(ImageManger.logoImage)),
@@ -143,24 +143,24 @@ class ContentInPreviewCard extends StatelessWidget {
           children: [
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
+              children: const [
+                Text(
                   'From',
                   style: TextStyle(
                       fontSize: AppSizes.textTiny, color: Color(AppColor.gray)),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8),
                 Text(
-                  createInvoiceEntities.client?.fullName.toString() ??
-                      'Talents Valley',
-                  style: const TextStyle(
+                  'Talents Valley',
+                  style: TextStyle(
                     color: Color(AppColor.primaryTextColor),
                   ),
                 ),
-                const SizedBox(height: 5),
+                SizedBox(height: 5),
                 Text(
-                  'LLC 30 North Gould St.\nSheridan, Wyoming 82801\n${createInvoiceEntities.client?.address.country ?? ''}\n+1 307-217-6666',
-                  style: const TextStyle(
+                  'LLC 30 North Gould St.\nSheridan, Wyoming 82801 ?? '
+                  '}\n+1 307-217-6666',
+                  style: TextStyle(
                       fontSize: AppSizes.textTiny, color: Color(AppColor.gray)),
                 ),
               ],
@@ -181,9 +181,9 @@ class ContentInPreviewCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 3),
-                Text(
-                  createInvoiceEntities.client?.email ?? '',
-                  style: const TextStyle(
+                const Text(
+                  'Heba@gmail.com',
+                  style: TextStyle(
                       fontSize: AppSizes.textTiny, color: Color(AppColor.gray)),
                 ),
                 const SizedBox(height: 14),
@@ -218,15 +218,16 @@ class ContentInPreviewCard extends StatelessWidget {
         ),
         ListView.builder(
           shrinkWrap: true,
-          itemCount: createInvoiceEntities.fixed?.length ?? 2,
+          itemCount: createInvoiceEntities.newServiceEntities.fixed.length ?? 2,
           itemBuilder: (context, index) => ListTile(
             contentPadding: EdgeInsets.zero,
             title: Text(
-              createInvoiceEntities.fixed![index].itemName ?? '',
+              createInvoiceEntities.newServiceEntities.fixed![index].itemName ??
+                  '',
               style: const TextStyle(color: Color(AppColor.primaryTextColor)),
             ),
             trailing: Text(
-              '\$ ${createInvoiceEntities.fixed![index].price ?? '00.00'}',
+              '\$ ${createInvoiceEntities.newServiceEntities.fixed![index].price ?? '00.00'}',
               style: const TextStyle(
                   fontSize: AppSizes.textTiny, color: Color(AppColor.gray)),
             ),
@@ -277,9 +278,12 @@ class ContentInPreviewCard extends StatelessWidget {
                           ListView.builder(
                             physics: const NeverScrollableScrollPhysics(),
                             shrinkWrap: true,
-                            itemCount: createInvoiceEntities.fixed?.length ?? 0,
+                            itemCount: createInvoiceEntities
+                                    .newServiceEntities.fixed?.length ??
+                                0,
                             itemBuilder: (context, index) {
-                              final item = createInvoiceEntities.fixed![index];
+                              final item = createInvoiceEntities
+                                  .newServiceEntities.fixed![index];
                               return Text(
                                 '\$ ${item.price.toString()}',
                               );
@@ -292,7 +296,7 @@ class ContentInPreviewCard extends StatelessWidget {
                           ),
                           const Divider(),
                           Text(
-                            '\$ ${totalFees(createInvoiceEntities.fixed?.fold(0.0, (previousValue, element) => previousValue + element.price!) ?? 0.0, 0.0).toString()}',
+                            '\$ ${totalFees(createInvoiceEntities.newServiceEntities.fixed?.fold(0.0, (previousValue, element) => previousValue + element.price!) ?? 0.0, 0.0).toString()}',
                           )
                         ],
                       ),

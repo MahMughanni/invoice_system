@@ -49,7 +49,7 @@ class TransactionsListWidget extends StatelessWidget {
                           arguments: state.invoiceList[index].id.toString());
                     },
                     child: TransactionsItemBody(
-                      jobTitle: fixed.first.itemName,
+                      jobTitle: fixed.first.itemName ?? '',
                       clintName: data.client.firstName,
                       price: fixed.first.price.toString(),
                       status: data.status.toString(),
@@ -69,7 +69,7 @@ class TransactionsListWidget extends StatelessWidget {
                           arguments: state.invoiceList[index].id.toString());
                     },
                     child: TransactionsItemBody(
-                      jobTitle: fixed.first.itemName,
+                      jobTitle: fixed.first.itemName ?? '',
                       clintName: data.client.firstName,
                       price: fixed.first.price.toString(),
                       status: data.status.toString(),

@@ -8,6 +8,7 @@ import 'package:invoice_system/domain/entities/create_invoice_entities.dart';
 import 'package:invoice_system/domain/entities/fixed_entities.dart';
 import 'package:invoice_system/domain/entities/service_entities.dart';
 import 'package:invoice_system/domain/entities/transactions_entities.dart';
+import 'package:invoice_system/domain/usecase/create_Service_usecase.dart';
 import 'package:invoice_system/domain/usecase/create_new_invoice_usecase.dart';
 import 'package:invoice_system/domain/usecase/get_transaction_usecase.dart';
 import 'package:invoice_system/domain/usecase/invoice_details_usecase.dart';
@@ -28,6 +29,8 @@ abstract class BaseInvoiceDataSource {
   Future login(LoginParameter parameter);
 
   Future<String> createInvoice(CreateInvoiceParameter parameter);
+
+  Future<String> createService(CreateServiceParameter parameter);
 
   Future<InvoiceDetailsModel> getInvoiceDetails(
       InvoiceDetailsParameter parameter);
@@ -96,48 +99,6 @@ class InvoiceDataSource extends BaseInvoiceDataSource {
   }
 
   @override
-  Future<String> createInvoice(CreateInvoiceParameter parameter) async {
-    var clientData = parameter.createInvoiceEntities.client;
-    var fixedData = parameter.createInvoiceEntities.fixed;
-
-    List<FixedEntities> fixedList = fixedData!
-        .map(
-          (fixedItem) => FixedEntities(
-              itemName: fixedItem.itemName.toString() ?? '',
-              description: fixedItem.description.toString() ?? '',
-              price: fixedItem.price ?? 0),
-        )
-        .toList();
-
-    final response = await BaseClient().post(
-      EndPoints.createInvoice,
-      options: Options(
-        headers: {'Authorization': 'Bearer ${parameter.token}'},
-        validateStatus: (_) => true,
-        contentType: Headers.jsonContentType,
-        responseType: ResponseType.json,
-      ),
-      data: {
-        "client": {
-          "fullName": clientData?.fullName ?? '',
-          "email": clientData?.email ?? '',
-          "address": {"country": parameter.createInvoiceEntities.client!.address.country}
-        },
-        "fixed": fixedList,
-        "currency": parameter.currency
-      },
-    );
-
-    if (response.statusCode == 200) {
-      return response.data['data']['_id'];
-    } else {
-      throw ServerExceptions(
-        errorMessageModel: ErrorMessageModel(response.toString()),
-      );
-    }
-  }
-
-  @override
   Future<List<TransactionsEntities>> getTransaction(
       TransactionParameter parameter) async {
     final response = await BaseClient().get(
@@ -200,5 +161,95 @@ class InvoiceDataSource extends BaseInvoiceDataSource {
     print(response);
 
     return response;
+  }
+
+  @override
+  Future<String> createInvoice(CreateInvoiceParameter parameter) async {
+    var clientData = parameter.createInvoiceEntities.client;
+    var fixedData = parameter.createInvoiceEntities.fixed;
+
+    List<FixedEntities> fixedList = fixedData!
+        .map(
+          (fixedItem) => FixedEntities(
+              itemName: fixedItem.itemName.toString() ?? '',
+              description: fixedItem.description.toString() ?? '',
+              price: fixedItem.price ?? 0),
+        )
+        .toList();
+
+    final response = await BaseClient().post(
+      EndPoints.createInvoice,
+      options: Options(
+        headers: {'Authorization': 'Bearer ${parameter.token}'},
+        validateStatus: (_) => true,
+        contentType: Headers.jsonContentType,
+        responseType: ResponseType.json,
+      ),
+      data: {
+        "client": {
+          "fullName": clientData?.fullName ?? '',
+          "email": clientData?.email ?? '',
+          "address": {
+            "country": parameter.createInvoiceEntities.client!.address.country
+          }
+        },
+        "fixed": fixedList,
+        "currency": parameter.currency
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return response.data['data']['_id'];
+    } else {
+      throw ServerExceptions(
+        errorMessageModel: ErrorMessageModel(response.toString()),
+      );
+    }
+  }
+
+  @override
+  Future<String> createService(CreateServiceParameter parameter) async {
+    try {
+      var fixed = parameter.newServiceEntities.fixed;
+      var currency = parameter.newServiceEntities.currency;
+
+      List<FixedEntities> fixedList = fixed!
+          .map(
+            (fixedItem) => FixedEntities(
+                itemName: fixedItem.itemName.toString() ?? '',
+                description: fixedItem.description.toString() ?? '',
+                price: fixedItem.price ?? 0),
+          )
+          .toList();
+
+      final response = await BaseClient().post(EndPoints.createService,
+          options: Options(
+            headers: {'Authorization': 'Bearer ${parameter.token}'},
+            validateStatus: (_) => true,
+            contentType: Headers.jsonContentType,
+            responseType: ResponseType.json,
+          ),
+          data: {
+            'fixed': fixedList,
+            'currency': currency,
+          });
+
+      if (response.statusCode == 200) {
+        return response.data['data']['_id'];
+      } else {
+        throw ServerExceptions(
+          errorMessageModel: ErrorMessageModel(response.toString()),
+        );
+      }
+    } on DioError catch (e) {
+      if (e.response != null) {
+        // The server returned an error response
+        print('Error status code: ${e.response?.statusCode ?? 'error'}');
+        print('Error message: ${e.response?.data ?? 'error 222'}');
+      } else {
+        print('Error sending request: $e');
+      }
+      rethrow;
+    }
   }
 }

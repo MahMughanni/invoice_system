@@ -47,7 +47,6 @@ class _CreateInvoiceBodyState extends State<CreateInvoiceBody> {
   ];
 
   final _formKey = GlobalKey<FormState>();
-  final contentKey = GlobalKey<FormState>();
 
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -89,6 +88,7 @@ class _CreateInvoiceBodyState extends State<CreateInvoiceBody> {
 
   @override
   Widget build(BuildContext context) {
+
     return BlocBuilder<AddFixedItemCubit, AddFixedItemState>(
       builder: (context, state) {
         List items = state.items;
@@ -241,14 +241,24 @@ class _CreateInvoiceBodyState extends State<CreateInvoiceBody> {
                                 fixed: itemsList);
 
                             if (_formKey.currentState!.validate()) {
+                              final fixedItem = FixedEntities(
+                                itemName: jobTitleController.text.toString(),
+                                description:
+                                    descriptionController.text.toString(),
+                                price: int.tryParse(priceController.text) ?? 0,
+                              );
+
+                              createInvoiceEntities.fixed!.add(fixedItem);
+                            }
+                            if (_formKey.currentState!.validate()) {
                               createInvoiceEntities = CreateInvoiceEntities(
                                 client: CreateClientEntities(
-                                    fullName:
-                                        '${firstNameController.text.toString().trim()}  ${lastNameController.text.toString().trim()}',
-                                    email:
-                                        emailController.text.toString().trim(),
-                                    address: AddressEntities(
-                                        country: countryList.first)),
+                                  fullName:
+                                      '${firstNameController.text.toString().trim()}  ${lastNameController.text.toString().trim()}',
+                                  email: emailController.text.toString().trim(),
+                                  address: AddressEntities(
+                                      country: countryList.first),
+                                ),
                                 fixed: [
                                   FixedEntities(
                                       itemName:
@@ -270,6 +280,17 @@ class _CreateInvoiceBodyState extends State<CreateInvoiceBody> {
                                       price:
                                           int.tryParse(priceController1.text) ??
                                               0),
+                                  FixedEntities(
+                                    itemName:
+                                        jobTitleController2.text.toString() ??
+                                            '',
+                                    description: descriptionController2.text
+                                            .toString() ??
+                                        '',
+                                    price:
+                                        int.tryParse(priceController2.text) ??
+                                            0,
+                                  ),
                                 ],
                               );
 

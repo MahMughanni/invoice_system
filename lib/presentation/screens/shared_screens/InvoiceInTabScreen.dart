@@ -8,6 +8,7 @@ import 'package:invoice_system/presentation/screens/widget/bottom_sheet/ContentS
 import 'package:invoice_system/presentation/screens/widget/bottom_sheet/CustomBottomSheetInvoiceFilter.dart';
 import 'package:invoice_system/utils/appConst.dart';
 
+import '../../../domain/entities/fixed_entities.dart';
 import '../../../utils/helper.dart';
 
 class InvoiceInTabScreen extends StatelessWidget {
@@ -48,7 +49,7 @@ class InvoiceInTabScreen extends StatelessWidget {
               color: const Color(AppColor.white),
               borderRadius: BorderRadius.circular(7),
             ),
-            child: const InvoiceListBody(),
+            child: InvoiceListBody(),
           )
         ],
       ),
@@ -71,7 +72,7 @@ class InvoiceListBody extends StatelessWidget {
           separatorBuilder: (context, index) => const Divider(),
           itemBuilder: (context, index) {
             // print(data[index].status);
-            String title = data[index].fixed.first.itemName;
+            String title = data[index].fixed.first.itemName ?? '';
 
             return ListTile(
                 onTap: () {

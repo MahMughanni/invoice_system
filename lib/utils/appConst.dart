@@ -55,7 +55,7 @@ class AppColor {
   static const int backGroundTextFieldColor = 0xFFFFFFFF;
   static const int textAboveFieldColor = 0xFF6C6969;
   static const int mainBlue = 0xFF4375FF;
-  static const int sentColor = 0xFF0044FF;
+  static const int activeColor = 0xFF0044FF;
   static const int pendColor = 0xFFDAA545;
   static const int addBankAccount = 0xFF6492EE;
   static const int scaffoldBack = 0xFFF2F4F7;

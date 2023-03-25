@@ -7,6 +7,8 @@ class ScreenName {
   static const String previewScreen = '/preview_screen';
   static const String mainScreen = '/main_screen';
   static const String detailsScreen = '/details_screen';
+  static const String previewServiceScreen = '/preview_service';
+  static const String linkStateScreen = '/linkStateScreen';
 
   static const String invoiceListTabsScreen = '/invoice_list_tabs_screen';
   static const String showDetailsInvoiceScreen = '/show_details_invoice_screen';

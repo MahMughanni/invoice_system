@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:invoice_system/core/routes/app_router.dart';
+import 'package:invoice_system/core/routes/named_router.dart';
 import 'package:invoice_system/presentation/screens/shared_screens/ListInTabScreen.dart';
 import 'package:invoice_system/utils/appConst.dart';
 
@@ -33,7 +34,7 @@ class InvoiceListTabsScreen extends StatelessWidget {
               color: Color(AppColor.primaryTextColor),
             ),
             onPressed: () {
-              AppRouter.mayBack();
+              AppRouter.goToAndRemove(screenName: ScreenName.mainScreen);
             },
           ),
           title: const Text('Invoices'),

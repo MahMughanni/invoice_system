@@ -4,10 +4,13 @@ import 'package:invoice_system/main.dart';
 import 'package:invoice_system/presentation/screens/invoice_flow/create_invoice.dart';
 import 'package:invoice_system/presentation/screens/link_flow/create_link.dart';
 
+import '../../domain/usecase/create_Service_usecase.dart';
 import '../../presentation/screens/home_screen.dart';
 import '../../presentation/screens/invoice_flow/ShowDetailsInvoiceScreen.dart';
 import '../../presentation/screens/invoice_flow/previewDetails_invoice_screen.dart';
 import '../../presentation/screens/invoice_flow/preview_invoice_screen.dart';
+import '../../presentation/screens/link_flow/link_state_screen.dart';
+import '../../presentation/screens/link_flow/preview_service_screen.dart';
 import '../../presentation/screens/main_screen.dart';
 import '../../presentation/screens/shared_screens/InvoiceListTabsScreen.dart';
 import 'named_router.dart';
@@ -41,12 +44,16 @@ class RouteGenerator {
           id: data,
         );
         break;
-      // case ScreenName.linkStateScreen:
-      //   result = LinkStateScreen();
-      //   break;
-
+      case ScreenName.linkStateScreen:
+        result = LinkStateScreen();
+        break;
       case ScreenName.mainScreen:
         result = const MainScreen();
+        break;
+      case ScreenName.previewServiceScreen:
+        result = PreviewServiceScreen(
+          createInvoiceEntities: data as CreateServiceParameter,
+        );
         break;
       case ScreenName.previewScreen:
         result = PreviewScreen(
