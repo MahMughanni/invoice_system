@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:invoice_system/core/services/services_locator.dart';
 import 'package:invoice_system/domain/entities/service_entities/service_entities.dart';
-import 'package:invoice_system/main.dart';
-import 'package:invoice_system/presentation/controller/create_service_bloc/create_service_bloc.dart';
 import 'package:invoice_system/presentation/controller/localData/shared_perf.dart';
 import 'package:invoice_system/presentation/screens/widget/custom_button.dart';
 import 'package:invoice_system/presentation/screens/widget/custom_dropdown.dart';
 import 'package:invoice_system/utils/appConst.dart';
 import 'package:invoice_system/utils/extentions/string_validate_extention.dart';
-
 import '../../../core/routes/app_router.dart';
 import '../../../core/routes/named_router.dart';
-import '../../../domain/entities/fixed_entities.dart';
 import '../../../domain/usecase/create_Service_usecase.dart';
-import '../../controller/create_invoice_bloc/create_invoice_bloc.dart';
 import '../../controller/cubit/add_fixed_item_cubit.dart';
 import '../widget/custom_Text_field.dart';
 import '../widget/shared_appbar.dart';
@@ -27,7 +21,7 @@ class CreateLinkScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => getIt<AddFixedItemCubit>(),
-      child: CreateLinkBodyScreen(),
+      child: const CreateLinkBodyScreen(),
     );
   }
 }
@@ -115,6 +109,16 @@ class _CreateLinkBodyScreenState extends State<CreateLinkBodyScreen> {
                               context.read<AddFixedItemCubit>().delete(index);
                             },
                           )
+                        : index == 1
+                        ? const Center(
+                        child: Text(
+                          'This is limited to add Service',
+                          style: TextStyle(
+                              fontSize:
+                              AppSizes.textDefaultSize,
+                              color: Color(
+                                  AppColor.redWarning)),
+                        ))
                         : Container(),
                   ),
                   TextButton(
@@ -207,9 +211,7 @@ class ContentToAddService extends StatelessWidget {
             ),
             Visibility(
               child: InkWell(
-                onTap: () {
-                  // value.decrement(index);
-                },
+                onTap: onPressed,
                 child: Container(
                   width: 18,
                   height: 18,
@@ -217,15 +219,12 @@ class ContentToAddService extends StatelessWidget {
                     color: Colors.black,
                     shape: BoxShape.circle,
                   ),
-                  child: IconButton(
-                      onPressed: onPressed,
-                      icon: const Icon(
+                  child: const Icon(
                         Icons.close,
                         size: 14,
                         color: Colors.white,
                       )),
                 ),
-              ),
             )
           ],
         ),

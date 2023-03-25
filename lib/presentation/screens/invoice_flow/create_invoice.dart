@@ -88,7 +88,6 @@ class _CreateInvoiceBodyState extends State<CreateInvoiceBody> {
 
   @override
   Widget build(BuildContext context) {
-
     return BlocBuilder<AddFixedItemCubit, AddFixedItemState>(
       builder: (context, state) {
         List items = state.items;
@@ -213,7 +212,17 @@ class _CreateInvoiceBodyState extends State<CreateInvoiceBody> {
                                                 .delete(index);
                                           },
                                         )
-                                      : Container(),
+                                      : index == 3
+                                          ? const Center(
+                                              child: Text(
+                                              'This is limited to add Service',
+                                              style: TextStyle(
+                                                  fontSize:
+                                                      AppSizes.textDefaultSize,
+                                                  color: Color(
+                                                      AppColor.redWarning)),
+                                            ))
+                                          : Container(),
                         ),
                         TextButton(
                           onPressed: () {
@@ -360,19 +369,17 @@ class ContentToAddService extends StatelessWidget {
               child: InkWell(
                 onTap: onPressed,
                 child: Container(
-                  width: 18,
-                  height: 18,
-                  decoration: const BoxDecoration(
-                    color: Colors.black,
-                    shape: BoxShape.circle,
-                  ),
-                  child:
-                       const Icon(
-                        Icons.close,
-                        size: 15,
-                        color: Colors.white,
-                      )
-                ),
+                    width: 18,
+                    height: 18,
+                    decoration: const BoxDecoration(
+                      color: Colors.black,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.close,
+                      size: 15,
+                      color: Colors.white,
+                    )),
               ),
             )
           ],
