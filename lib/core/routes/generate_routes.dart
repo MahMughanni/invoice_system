@@ -3,6 +3,7 @@ import 'package:invoice_system/domain/entities/create_invoice_entities.dart';
 import 'package:invoice_system/main.dart';
 import 'package:invoice_system/presentation/screens/invoice_flow/create_invoice.dart';
 import 'package:invoice_system/presentation/screens/link_flow/create_link.dart';
+import 'package:invoice_system/presentation/screens/login_scree.dart';
 
 import '../../domain/usecase/create_Service_usecase.dart';
 import '../../presentation/screens/home_screen.dart';
@@ -33,6 +34,9 @@ class RouteGenerator {
         break;
       case ScreenName.invoiceListTabsScreen:
         result = const InvoiceListTabsScreen();
+        break;
+      case ScreenName.loginScreen:
+        result = const LogInScreen();
         break;
       case ScreenName.showDetailsInvoiceScreen:
         result = ShowDetailsInvoiceScreen(

@@ -21,7 +21,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SharedPrefController().init();
   ServicesLocator().init();
-  login();
+  // login();
   createService();
   // changeInvoiceStatus('641e5a5b73ac594b84ecc056');
   runApp(const MyApp());
@@ -35,29 +35,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       scaffoldMessengerKey: UtilsConfig.scaffoldKey,
       onGenerateRoute: RouteGenerator.onGenerateRoute,
-      initialRoute: ScreenName.mainScreen,
+      initialRoute: ScreenName.loginScreen,
       navigatorKey: AppRouter.navigatorKey,
     );
-  }
-}
-
-login() async {
-  try {
-    final response = await BaseClient().post(
-      EndPoints.login,
-      data: {
-        "email": "hebaskhail@gmail.com",
-        "password": "Heba@123456",
-      },
-    );
-
-    if (response.statusCode == 200) {
-      SharedPrefController().save(UserModel.fromJson(response.data["data"]));
-      response;
-    }
-  } on DioError catch (e) {
-    final errorMessage = DioExceptions.fromDioError(e);
-    Helper.showSnackBarMessage(message: errorMessage, status: false);
   }
 }
 
