@@ -47,7 +47,7 @@ class ListInTabScreen extends StatelessWidget {
               color: const Color(AppColor.white),
               borderRadius: BorderRadius.circular(7),
             ),
-            child: ServiceListBody(),
+            child: const ServiceListBody(),
           )
         ],
       ),

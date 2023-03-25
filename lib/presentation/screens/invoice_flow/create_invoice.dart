@@ -358,9 +358,7 @@ class ContentToAddService extends StatelessWidget {
             ),
             Visibility(
               child: InkWell(
-                onTap: () {
-                  // value.decrement(index);
-                },
+                onTap: onPressed,
                 child: Container(
                   width: 18,
                   height: 18,
@@ -368,13 +366,12 @@ class ContentToAddService extends StatelessWidget {
                     color: Colors.black,
                     shape: BoxShape.circle,
                   ),
-                  child: IconButton(
-                      onPressed: onPressed,
-                      icon: const Icon(
+                  child:
+                       const Icon(
                         Icons.close,
-                        size: 14,
+                        size: 15,
                         color: Colors.white,
-                      )),
+                      )
                 ),
               ),
             )

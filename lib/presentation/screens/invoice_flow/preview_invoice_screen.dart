@@ -4,8 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:invoice_system/core/routes/app_router.dart';
 import 'package:invoice_system/core/routes/named_router.dart';
 import 'package:invoice_system/presentation/controller/create_invoice_bloc/create_invoice_bloc.dart';
-
-import 'package:invoice_system/presentation/controller/invoice_details_bloc/invoice_details_bloc.dart';
 import 'package:invoice_system/presentation/controller/localData/shared_perf.dart';
 import 'package:invoice_system/presentation/screens/widget/shared_appbar.dart';
 import 'package:invoice_system/utils/appConst.dart';
@@ -71,7 +69,6 @@ class PreviewScreenBody extends StatelessWidget {
               title: 'Send Invoice',
               textColorIsWhite: true,
               onPressed: () {
-                //
                 BlocProvider.of<CreateInvoiceBloc>(context).add(
                   CreateInvoiceEvent(
                       createInvoiceEntities: createInvoiceEntities,
@@ -121,7 +118,7 @@ class ContentInPreviewCard extends StatelessWidget {
     String formattedDate = DateFormat.yMMMd().format(time);
     // print(data);
     return ListView(
-      physics: const NeverScrollableScrollPhysics(),
+      //  physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       children: [
         ListTile(
@@ -218,20 +215,29 @@ class ContentInPreviewCard extends StatelessWidget {
         ),
         ListView.builder(
           shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
           itemCount: createInvoiceEntities.fixed?.length ?? 2,
-          itemBuilder: (context, index) => ListTile(
-            contentPadding: EdgeInsets.zero,
-            title: Text(
-              createInvoiceEntities.fixed![index].itemName ?? '',
-              style: const TextStyle(color: Color(AppColor.primaryTextColor)),
-            ),
-            trailing: Text(
-              '\$ ${createInvoiceEntities.fixed![index].price ?? '00.00'}',
-              style: const TextStyle(
-                  fontSize: AppSizes.textTiny, color: Color(AppColor.gray)),
+          itemBuilder: (context, index) => Padding(
+            padding: const EdgeInsets.only(bottom: 8),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  createInvoiceEntities.fixed![index].itemName ?? '',
+                  style: const TextStyle(
+                      color: Color(AppColor.primaryTextColor),
+                      fontSize: AppSizes.textDefaultSize),
+                ),
+                Text(
+                  '\$ ${createInvoiceEntities.fixed![index].price ?? '00.00'}',
+                  style: const TextStyle(
+                      fontSize: AppSizes.textTiny, color: Color(AppColor.gray)),
+                ),
+              ],
             ),
           ),
         ),
+        const SizedBox(height: 5),
         const Divider(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -241,6 +247,7 @@ class ContentInPreviewCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -251,7 +258,7 @@ class ContentInPreviewCard extends StatelessWidget {
                               fontSize: AppSizes.textTiny,
                               color: Color(AppColor.gray)),
                         ),
-                        SizedBox(height: 5),
+                        SizedBox(height: 10),
                         Text(
                           'Fees',
                           style: TextStyle(
@@ -267,10 +274,10 @@ class ContentInPreviewCard extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(width: 20),
+                    const SizedBox(width: 25),
                     SizedBox(
                       height: 130,
-                      width: 130,
+                      width: 70,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

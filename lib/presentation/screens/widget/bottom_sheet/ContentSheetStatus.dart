@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:invoice_system/core/routes/app_router.dart';
 import 'package:invoice_system/core/routes/named_router.dart';
 import 'package:invoice_system/core/services/services_locator.dart';
-import 'package:invoice_system/presentation/controller/invoice_bloc/invoice_bloc.dart';
 import 'package:invoice_system/presentation/screens/shared_widget/custom_button.dart';
 import 'package:invoice_system/utils/appConst.dart';
 import 'package:invoice_system/utils/helper.dart';
 
 import '../../../controller/invoice_details_bloc/invoice_details_bloc.dart';
-import '../../invoice_flow/ShowDetailsInvoiceScreen.dart';
+
 
 class ContentSheetStatus extends StatelessWidget {
   const ContentSheetStatus({
@@ -266,18 +264,21 @@ class StatusWidget extends StatelessWidget {
       title: Text(
         data.status?.toString() ?? status,
         style: TextStyle(
-          fontSize: AppSizes.textSemiLarge,
+          fontSize: AppSizes.textDefaultSize,
           fontWeight: FontWeight.w600,
           color: Helper.setColor(status),
         ),
       ),
-      subtitle: Text(
-        data.createdAt != null
-            ? Helper.formatTime(data.createdAt.toString())
-            : time,
-        style: const TextStyle(
-          fontSize: AppSizes.textTiny,
-          color: Color(AppColor.gray),
+      subtitle: Padding(
+        padding: const EdgeInsets.only(top: 5.0),
+        child: Text(
+          data.createdAt != null
+              ? Helper.formatTime(data.createdAt.toString())
+              : time,
+          style: const TextStyle(
+            fontSize: AppSizes.textVeryTiny,
+            color: Color(AppColor.gray),
+          ),
         ),
       ),
       trailing: Text(
