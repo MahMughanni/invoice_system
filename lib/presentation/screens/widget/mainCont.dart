@@ -19,11 +19,11 @@ class MainContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(20),
-      margin: EdgeInsets.only(
-        top: paddingTop,
-        right: AppConstantsPadding.screenHorizontalPadding,
-        left: AppConstantsPadding.screenHorizontalPadding,
-      ),
+       margin: EdgeInsets.only(
+         top: paddingTop,
+      //   right: AppConstantsPadding.screenHorizontalPadding,
+      //   left: AppConstantsPadding.screenHorizontalPadding,
+       ),
       width: width,
       height: height,
       decoration: BoxDecoration(

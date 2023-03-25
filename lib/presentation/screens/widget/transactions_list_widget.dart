@@ -15,15 +15,15 @@ class TransactionsListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var height = MediaQuery.of(context).size.height;
     return BlocBuilder<InvoiceBloc, InvoiceSeccsuesState>(
       builder: (context, state) {
         var data = state.invoiceList;
         return MainContainer(
-            height: height * .50,
             width: double.infinity,
             paddingTop: 0,
             child: ListView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: data.length,
               itemBuilder: (BuildContext context, int index) {
                 bool isSameDate = true;

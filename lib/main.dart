@@ -3,18 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:invoice_system/core/routes/app_router.dart';
 import 'package:invoice_system/core/routes/generate_routes.dart';
 import 'package:invoice_system/core/routes/named_router.dart';
-
 import 'package:invoice_system/utils/helper.dart';
-
-import 'core/base_usecase/base_usecase.dart';
-import 'core/error/exception.dart';
 import 'core/network/api_constants.dart';
-import 'core/network/app_exception.dart';
 import 'core/network/base_client.dart';
 import 'core/services/services_locator.dart';
-import 'data/models/user_model.dart';
-
-import 'domain/usecase/create_Service_usecase.dart';
 import 'presentation/controller/localData/shared_perf.dart';
 
 void main() async {
@@ -33,6 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       scaffoldMessengerKey: UtilsConfig.scaffoldKey,
       onGenerateRoute: RouteGenerator.onGenerateRoute,
       initialRoute: ScreenName.loginScreen,

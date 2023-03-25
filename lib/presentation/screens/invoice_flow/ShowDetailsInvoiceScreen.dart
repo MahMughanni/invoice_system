@@ -159,7 +159,7 @@ class _InvoiceDetailsScreenBodyState extends State<InvoiceDetailsScreenBody> {
                 const SizedBox(height: 15),
 
                 MainContainer(
-                  height: height * .25,
+                  //height: height * .25,
                   width: double.infinity,
                   paddingTop: 15,
                   child: Padding(
@@ -174,6 +174,7 @@ class _InvoiceDetailsScreenBodyState extends State<InvoiceDetailsScreenBody> {
                         ),
                         Expanded(
                           child: ListView.builder(
+                            shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             itemCount: historyData?.length ?? 0,
                             itemBuilder: (BuildContext context, int index) {

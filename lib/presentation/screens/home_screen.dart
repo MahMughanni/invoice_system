@@ -21,26 +21,25 @@ class HomeScreen extends StatelessWidget {
         create: (context) => getIt<InvoiceBloc>()
           ..add(GetInvoiceEvent(SharedPrefController().getUser().accessToken)),
         child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32.0),
-                child: Text(
-                    'Hello , ${SharedPrefController().getUser().userInfo.firstName}'),
-              ),
-              HeaderWidget(
-                balance: SharedPrefController()
-                    .getUser()
-                    .userInfo
-                    .balance
-                    .toStringAsFixed(2),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 32.0, vertical: 10),
-                child: Row(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                //   child: Text(
+                //       'Hello , ${SharedPrefController().getUser().userInfo.firstName}'),
+                // ),
+                HeaderWidget(
+                  balance: SharedPrefController()
+                      .getUser()
+                      .userInfo
+                      .balance
+                      .toStringAsFixed(2),
+                ),
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text('Transactions'),
@@ -53,9 +52,9 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ],
                 ),
-              ),
-              const TransactionsListWidget(),
-            ],
+                const TransactionsListWidget(),
+              ],
+            ),
           ),
         ),
       ),

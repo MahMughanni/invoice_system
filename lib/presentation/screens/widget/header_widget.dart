@@ -14,7 +14,7 @@ class HeaderWidget extends StatelessWidget {
     var height = MediaQuery.of(context).size.height;
 
     return MainContainer(
-      height: height * .24,
+      height: height * .23,
       width: double.infinity,
       paddingTop: AppConstantsPadding.screenVerticalPadding,
       child: Column(
