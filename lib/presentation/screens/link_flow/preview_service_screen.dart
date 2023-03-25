@@ -2,18 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:invoice_system/core/routes/app_router.dart';
-import 'package:invoice_system/core/routes/named_router.dart';
-import 'package:invoice_system/presentation/controller/create_invoice_bloc/create_invoice_bloc.dart';
 import 'package:invoice_system/presentation/controller/create_service_bloc/create_service_bloc.dart';
-
-import 'package:invoice_system/presentation/controller/invoice_details_bloc/invoice_details_bloc.dart';
-import 'package:invoice_system/presentation/controller/localData/shared_perf.dart';
 import 'package:invoice_system/presentation/screens/widget/shared_appbar.dart';
 import 'package:invoice_system/utils/appConst.dart';
 import 'package:invoice_system/utils/helper.dart';
 
+import '../../../core/routes/named_router.dart';
 import '../../../core/services/services_locator.dart';
-import '../../../domain/entities/create_invoice_entities.dart';
+
 import '../../../domain/usecase/create_Service_usecase.dart';
 import '../shared_widget/custom_button.dart';
 
@@ -79,10 +75,10 @@ class PreviewScreenBody extends StatelessWidget {
                   CreateServiceRequested(parameter: createInvoiceEntities),
                 );
 
-                // Future.delayed(const Duration(microseconds: 500), () {
-                //   AppRouter.goToAndRemove(
-                //       screenName: ScreenName.invoiceListTabsScreen);
-                // });
+                Future.delayed(const Duration(microseconds: 500), () {
+                  AppRouter.goToAndRemove(
+                      screenName: ScreenName.invoiceListTabsScreen);
+                });
                 UtilsConfig.showSnackBarMessage(
                     message: 'Your invoice is now under review.', status: true);
               },
