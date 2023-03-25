@@ -13,11 +13,13 @@ class Helper {
     String formattedDate = DateFormat.yMMMEd().format(createdDate);
     return formattedDate;
   }
+
   static String formatTime2(data) {
     DateTime createdDate = DateTime.parse(data);
     String formattedDate = DateFormat.MMMEd().format(createdDate);
     return formattedDate;
   }
+
   static String formatTime3(data) {
     DateTime createdDate = DateTime.parse(data);
     String formattedDate = DateFormat.MEd().format(createdDate);

@@ -85,35 +85,3 @@ Future<String> createService() async {
     rethrow;
   }
 }
-
-// Future<String> createService(CreateServiceParameter parameter) async {
-//   try {
-//     var fixed = parameter.newServiceEntities.fixed;
-//     var currency = parameter.newServiceEntities.currency;
-//
-//
-//
-//     final response = await BaseClient().post(EndPoints.createService,
-//         options: Options(
-//           headers: {'Authorization': 'Bearer ${SharedPrefController}'},
-//           validateStatus: (_) => true,
-//           contentType: Headers.jsonContentType,
-//           responseType: ResponseType.json,
-//         ),
-//         data: {
-//           'fixed': fixed.map((item) => item.toJson()).toList(),
-//           'currency': currency,
-//         });
-//
-//     return response.data['data']['_id'];
-//   } on DioError catch (e) {
-//     if (e.response != null) {
-//       // The server returned an error response
-//       print('Error status code: ${e.response?.statusCode ?? 'error'}');
-//       print('Error message: ${e.response?.data ?? 'error 222'}');
-//     } else {
-//       print('Error sending request: $e');
-//     }
-//     rethrow;
-//   }
-// }

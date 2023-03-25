@@ -115,30 +115,7 @@ class _CreateLinkBodyScreenState extends State<CreateLinkBodyScreen> {
                               context.read<AddFixedItemCubit>().delete(index);
                             },
                           )
-                        : index == 1
-                            ? ContentToAddService(
-                                jobTitleController: jobTitleController1,
-                                descriptionController: descriptionController1,
-                                priceController: priceController1,
-                                onPressed: () {
-                                  context
-                                      .read<AddFixedItemCubit>()
-                                      .delete(index);
-                                },
-                              )
-                            : index == 2
-                                ? ContentToAddService(
-                                    jobTitleController: jobTitleController2,
-                                    descriptionController:
-                                        descriptionController2,
-                                    priceController: priceController2,
-                                    onPressed: () {
-                                      context
-                                          .read<AddFixedItemCubit>()
-                                          .delete(index);
-                                    },
-                                  )
-                                : Container(),
+                        : Container(),
                   ),
                   TextButton(
                     onPressed: () {
@@ -161,16 +138,6 @@ class _CreateLinkBodyScreenState extends State<CreateLinkBodyScreen> {
                           description: descriptionController.text ?? '',
                           itemName: jobTitleController.text ?? '',
                         ),
-                        FixedItem(
-                          price: int.tryParse(priceController1.text) ?? 0,
-                          description: descriptionController1.text ?? '',
-                          itemName: jobTitleController1.text ?? '',
-                        ),
-                        FixedItem(
-                          price: int.tryParse(priceController2.text) ?? 0,
-                          description: descriptionController2.text ?? '',
-                          itemName: jobTitleController2.text ?? '',
-                        ),
                       ];
                       NewServiceEntities newServiceEntities =
                           NewServiceEntities(
@@ -178,14 +145,13 @@ class _CreateLinkBodyScreenState extends State<CreateLinkBodyScreen> {
                       CreateServiceParameter parameter = CreateServiceParameter(
                           newServiceEntities: newServiceEntities,
                           token: SharedPrefController().getUser().accessToken);
-                      // print(parameter);
-                      if (_formKey.currentState!.validate()) {
+
+                      if (_formKey.currentState!.validate() ||
+                          _formKey.currentState != null) {
                         AppRouter.navigatorKey.currentState!.pushNamed(
                             ScreenName.previewServiceScreen,
                             arguments: parameter);
                       }
-                      // BlocProvider.of<CreateServiceBloc>(context)
-                      //     .add(CreateServiceRequested(parameter: parameter));
                     },
                   )
                 ],

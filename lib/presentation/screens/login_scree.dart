@@ -7,7 +7,6 @@ import '../../core/network/app_exception.dart';
 import '../../core/network/base_client.dart';
 import '../../core/routes/named_router.dart';
 import '../../data/models/user_model.dart';
-import '../../utils/helper.dart';
 import '../controller/localData/shared_perf.dart';
 
 class LogInScreen extends StatelessWidget {
@@ -17,6 +16,11 @@ class LogInScreen extends StatelessWidget {
     try {
       final response = await BaseClient().post(
         EndPoints.login,
+        options: Options(
+          validateStatus: (_) => true,
+          contentType: Headers.jsonContentType,
+          responseType: ResponseType.json,
+        ),
         data: {
           "email": "hebaskhail@gmail.com",
           "password": "Heba@123456",
@@ -28,10 +32,10 @@ class LogInScreen extends StatelessWidget {
       }
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e);
-      Helper.showSnackBarMessage(
-        message: errorMessage,
-        status: false,
-      );
+      // Helper.showSnackBarMessage(
+      //   message: errorMessage,
+      //   status: false,
+      // );
     }
   }
 
@@ -42,9 +46,10 @@ class LogInScreen extends StatelessWidget {
         child: ElevatedButton(
           onPressed: () async {
             await login();
-            AppRouter.goToAndRemove(screenName: ScreenName.mainScreen);
+            AppRouter.goTo(screenName: ScreenName.mainScreen);
           },
           child: const Text('Login'),
+          // print(SharedPrefController().getUser.) ;
         ),
       ),
     );

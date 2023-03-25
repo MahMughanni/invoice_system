@@ -230,7 +230,9 @@ class InvoiceDataSource extends BaseInvoiceDataSource {
             responseType: ResponseType.json,
           ),
           data: {
-            'fixed': fixedList,
+            'fixed': [
+
+            ],
             'currency': currency,
           });
 

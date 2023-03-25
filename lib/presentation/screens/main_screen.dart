@@ -15,7 +15,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final List screens = [
-     HomeScreen(),
+    HomeScreen(),
     Container(),
     Container(),
     const HelpScreen(),
@@ -31,10 +31,7 @@ class _MainScreenState extends State<MainScreen> {
         leading: IconButton(
           onPressed: () {
             SharedPrefController().clear();
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (BuildContext context) {
-              return Container();
-            }));
+            Navigator.pop(context);
           },
           icon: const Icon(
             Icons.logout_sharp,
