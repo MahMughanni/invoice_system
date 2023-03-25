@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:invoice_system/core/routes/app_router.dart';
-import 'package:invoice_system/core/routes/named_router.dart';
 import 'package:invoice_system/core/services/services_locator.dart';
 import 'package:invoice_system/domain/entities/address_entities.dart';
 import 'package:invoice_system/domain/entities/create_invoice_entities.dart';
@@ -13,7 +11,10 @@ import 'package:invoice_system/presentation/screens/widget/shared_appbar.dart';
 import 'package:invoice_system/utils/appConst.dart';
 import 'package:invoice_system/utils/extentions/string_validate_extention.dart';
 
-import '../../controller/localData/shared_perf.dart';
+import '../../../core/routes/app_router.dart';
+import '../../../core/routes/named_router.dart';
+import '../../../utils/helper.dart';
+import '../../controller/cubit/add_fixed_item_cubit.dart';
 import '../widget/custom_Text_field.dart';
 
 class CreateInvoiceScreen extends StatelessWidget {
@@ -22,8 +23,7 @@ class CreateInvoiceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      lazy: true,
-      create: (context) => getIt<CreateInvoiceBloc>(),
+      create: (context) => getIt<AddFixedItemCubit>(),
       child: const CreateInvoiceBody(),
     );
   }
@@ -37,7 +37,7 @@ class CreateInvoiceBody extends StatefulWidget {
 }
 
 class _CreateInvoiceBodyState extends State<CreateInvoiceBody> {
-  List<Widget> itemsList = [];
+  List<FixedEntities> itemsList = [];
 
   var countryList = [
     'Palestine',
@@ -62,6 +62,10 @@ class _CreateInvoiceBodyState extends State<CreateInvoiceBody> {
   final descriptionController1 = TextEditingController();
   final priceController1 = TextEditingController();
 
+  final jobTitleController2 = TextEditingController();
+  final descriptionController2 = TextEditingController();
+  final priceController2 = TextEditingController();
+
   @override
   void dispose() {
     super.dispose();
@@ -75,30 +79,19 @@ class _CreateInvoiceBodyState extends State<CreateInvoiceBody> {
     jobTitleController1.dispose();
     descriptionController1.dispose();
     priceController1.dispose();
+    jobTitleController2.dispose();
+    descriptionController2.dispose();
+    priceController2.dispose();
   }
 
   late CreateInvoiceEntities createInvoiceEntities;
+  String? dropdownValue;
 
   @override
   Widget build(BuildContext context) {
-    itemsList = [
-      ContentToAddService(
-          jobTitleController: jobTitleController,
-          descriptionController: descriptionController,
-          priceController: priceController),
-    ];
-    return BlocBuilder<CreateInvoiceBloc, CreateInvoiceSuccess>(
+    return BlocBuilder<AddFixedItemCubit, AddFixedItemState>(
       builder: (context, state) {
-        var id = state.id;
-
-        state.servesList = [
-          ContentToAddService(
-            jobTitleController: jobTitleController1,
-            descriptionController: descriptionController1,
-            priceController: priceController1,
-          ),
-        ];
-        // print(state.id);
+        List items = state.items;
         return Form(
           key: _formKey,
           child: Scaffold(
@@ -166,56 +159,65 @@ class _CreateInvoiceBodyState extends State<CreateInvoiceBody> {
                             Expanded(
                               flex: 2,
                               child: CustomDropDown(
+                                  onChanged: (String? v) {},
                                   dropDownValue: countryList.first,
                                   items: countryList),
                             ),
                             const SizedBox(width: 8),
                             Expanded(
                               child: CustomDropDown(
-                                  dropDownValue: currencyList.first,
-                                  items: currencyList),
+                                onChanged: (String? v) {},
+                                dropDownValue: currencyList.first,
+                                items: currencyList,
+                              ),
                             ),
                           ],
                         ),
                         ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
-                          itemCount: itemsList.length,
-                          itemBuilder: (context, index) => itemsList[index],
+                          itemCount: items.length,
+                          itemBuilder: (context, index) => index == 0
+                              ? ContentToAddService(
+                                  jobTitleController: jobTitleController,
+                                  priceController: priceController,
+                                  descriptionController: descriptionController,
+                                  onPressed: () {
+                                    context
+                                        .read<AddFixedItemCubit>()
+                                        .delete(index);
+                                  },
+                                )
+                              : index == 1
+                                  ? ContentToAddService(
+                                      jobTitleController: jobTitleController1,
+                                      descriptionController:
+                                          descriptionController1,
+                                      priceController: priceController1,
+                                      onPressed: () {
+                                        context
+                                            .read<AddFixedItemCubit>()
+                                            .delete(index);
+                                      },
+                                    )
+                                  : index == 2
+                                      ? ContentToAddService(
+                                          jobTitleController:
+                                              jobTitleController2,
+                                          descriptionController:
+                                              descriptionController2,
+                                          priceController: priceController2,
+                                          onPressed: () {
+                                            context
+                                                .read<AddFixedItemCubit>()
+                                                .delete(index);
+                                          },
+                                        )
+                                      : Container(),
                         ),
                         TextButton(
                           onPressed: () {
-                            state.servesList.add(
-                              ContentToAddService(
-                                key: contentKey,
-                                jobTitleController: jobTitleController1,
-                                descriptionController: descriptionController1,
-                                priceController: priceController1,
-                              ),
-                            );
-                            if (itemsList.length != 2) {
-                              itemsList.add(
-                                ContentToAddService(
-                                  key: contentKey,
-                                  jobTitleController: jobTitleController1,
-                                  descriptionController: descriptionController1,
-                                  priceController: priceController1,
-                                ),
-                              );
-                            }
-                            {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                      content: Text('max 2 job\'s ')));
-                            }
-
-                            BlocProvider.of<CreateInvoiceBloc>(context).add(
-                              AddFixedEvent(
-                                fixedEntities: itemsList,
-                              ),
-                            );
-                            // print(counter);
-                            // setState(() {});
+                            context.read<AddFixedItemCubit>().increment();
                           },
                           child: const Align(
                             alignment: Alignment.centerLeft,
@@ -227,64 +229,56 @@ class _CreateInvoiceBodyState extends State<CreateInvoiceBody> {
                           title: 'Preview Invoice',
                           isBorder: false,
                           textColorIsWhite: true,
-                          onPressed: () async {
-                            // if (contentKey.currentState!.validate()) {
-                            //   ScaffoldMessenger.of(context).showSnackBar(
-                            //       SnackBar(content: Text('Valid')));
-                            // }
+                          onPressed: () {
+                            createInvoiceEntities = CreateInvoiceEntities(
+                                client: CreateClientEntities(
+                                    fullName:
+                                        '${firstNameController.text.toString().trim()}  ${lastNameController.text.toString().trim()}',
+                                    email:
+                                        emailController.text.toString().trim(),
+                                    address: AddressEntities(
+                                        country: countryList.first)),
+                                fixed: itemsList);
+
                             if (_formKey.currentState!.validate()) {
                               createInvoiceEntities = CreateInvoiceEntities(
-                                  client: CreateClientEntities(
-                                      firstName: firstNameController.text
-                                          .toString()
-                                          .trim(),
-                                      lastName: lastNameController.text
-                                          .toString()
-                                          .trim(),
-                                      email: emailController.text
-                                          .toString()
-                                          .trim(),
-                                      address: AddressEntities(
-                                          country: countryList.first)),
-                                  fixed: [
-                                    FixedEntities(
-                                        itemName: jobTitleController.text
-                                            .toString()
-                                            .trim(),
-                                        description: descriptionController.text
-                                            .toString()
-                                            .trim(),
-                                        price: int.tryParse(
-                                                priceController.text) ??
-                                            0),
-                                    FixedEntities(
-                                        itemName: jobTitleController1.text
-                                            .toString()
-                                            .trim(),
-                                        description: descriptionController1.text
-                                            .toString()
-                                            .trim(),
-                                        price: int.tryParse(
-                                                priceController1.text) ??
-                                            0),
-                                  ]);
-                              BlocProvider.of<CreateInvoiceBloc>(context).add(
-                                CreateInvoiceEvent(
-                                    createInvoiceEntities:
-                                        createInvoiceEntities,
-                                    currency: 'USD',
-                                    token: SharedPrefController()
-                                        .getUser()
-                                        .accessToken),
+                                client: CreateClientEntities(
+                                    fullName:
+                                        '${firstNameController.text.toString().trim()}  ${lastNameController.text.toString().trim()}',
+                                    email:
+                                        emailController.text.toString().trim(),
+                                    address: AddressEntities(
+                                        country: countryList.first)),
+                                fixed: [
+                                  FixedEntities(
+                                      itemName:
+                                          jobTitleController.text.toString() ??
+                                              '',
+                                      description: descriptionController.text
+                                              .toString() ??
+                                          '',
+                                      price:
+                                          int.tryParse(priceController.text) ??
+                                              0),
+                                  FixedEntities(
+                                      itemName:
+                                          jobTitleController1.text.toString() ??
+                                              '',
+                                      description: descriptionController1.text
+                                              .toString() ??
+                                          '',
+                                      price:
+                                          int.tryParse(priceController1.text) ??
+                                              0),
+                                ],
                               );
-                              print("Invoice ID : $id");
 
-                              Future.delayed(const Duration(seconds: 1), () {
-                                print("Invoice ID : $id");
-
+                              // print (state)
+                              Future.delayed(const Duration(milliseconds: 500),
+                                  () {
                                 AppRouter.navigatorKey.currentState!.pushNamed(
                                     ScreenName.previewScreen,
-                                    arguments: id.toString());
+                                    arguments: createInvoiceEntities);
                               });
                             }
                           },
@@ -301,12 +295,15 @@ class _CreateInvoiceBodyState extends State<CreateInvoiceBody> {
 }
 
 class ContentToAddService extends StatelessWidget {
-  const ContentToAddService({
+  ContentToAddService({
     super.key,
     this.jobTitleController,
     this.descriptionController,
     this.priceController,
+    this.onPressed,
   });
+
+  Function()? onPressed;
 
   final TextEditingController? jobTitleController;
 
@@ -350,11 +347,13 @@ class ContentToAddService extends StatelessWidget {
                     color: Colors.black,
                     shape: BoxShape.circle,
                   ),
-                  child: const Icon(
-                    Icons.close,
-                    size: 14,
-                    color: Colors.white,
-                  ),
+                  child: IconButton(
+                      onPressed: onPressed,
+                      icon: const Icon(
+                        Icons.close,
+                        size: 14,
+                        color: Colors.white,
+                      )),
                 ),
               ),
             )

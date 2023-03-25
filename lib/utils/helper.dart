@@ -1,21 +1,55 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:invoice_system/core/routes/app_router.dart';
 
 import 'appConst.dart';
 
 class Helper {
+  static String formatTime(data) {
+    DateTime createdDate = DateTime.parse(data);
+    String formattedDate = DateFormat.yMMMEd().format(createdDate);
+    return formattedDate;
+  }
+  static String formatTime2(data) {
+    DateTime createdDate = DateTime.parse(data);
+    String formattedDate = DateFormat.MMMEd().format(createdDate);
+    return formattedDate;
+  }
+  static String formatTime3(data) {
+    DateTime createdDate = DateTime.parse(data);
+    String formattedDate = DateFormat.MEd().format(createdDate);
+    return formattedDate;
+  }
+
   static Color setColor(var data) {
-    return data.status == 'pending'
+    return data == 'pending'
         ? AppColor.pendingStateColor
-        : data.status == 'sent'
+        : data == 'sent'
             ? AppColor.sentStateColor
-            : data.status == 'pending_approval'.toString()
+            : data == 'pending_approval'.toString()
                 ? AppColor.pendingStateColor
-                : data.status == 'paid'
+                : data == 'paid'
                     ? Colors.green
-                    : Colors.black;
+                    : data == 'cancelled'
+                        ? Colors.black.withOpacity(.7)
+                        : data == 'active'
+                            ? Colors.blue
+                            : data == 'inactive'
+                                ? Colors.black
+                                : Colors.black;
+  }
+
+  static Widget setIcon(status) {
+    return status == 'pending_approval'
+        ? SvgPicture.asset(IconsManger.wallClock)
+        : status == 'sent'
+            ? SvgPicture.asset(IconsManger.send)
+            : status == 'cancelled'
+                ? SvgPicture.asset(IconsManger.forbidden)
+                : SvgPicture.asset(IconsManger.send);
   }
 
   static String getTime(var now) {

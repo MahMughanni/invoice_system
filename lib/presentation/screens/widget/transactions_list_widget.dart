@@ -4,10 +4,10 @@ import 'package:intl/intl.dart';
 import 'package:invoice_system/core/routes/app_router.dart';
 import 'package:invoice_system/core/routes/named_router.dart';
 import 'package:invoice_system/presentation/controller/invoice_bloc/invoice_bloc.dart';
-import 'package:invoice_system/presentation/screens/shared/main_container.dart';
 import 'package:invoice_system/utils/extentions/date_ext.dart';
 import 'package:invoice_system/utils/helper.dart';
 
+import '../shared_widget/main_container.dart';
 import 'item_body_widget.dart';
 
 class TransactionsListWidget extends StatelessWidget {
@@ -16,7 +16,7 @@ class TransactionsListWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
-    return BlocBuilder<InvoiceBloc, InvoiceInitialState>(
+    return BlocBuilder<InvoiceBloc, InvoiceSeccsuesState>(
       builder: (context, state) {
         var data = state.invoiceList;
         return MainContainer(
@@ -31,7 +31,8 @@ class TransactionsListWidget extends StatelessWidget {
                 var listData = state.invoiceList;
                 var fixed = data.fixed;
                 DateTime createdDate = DateTime.parse(data.createdAt);
-                String formattedDate = DateFormat.yMMMMEEEEd().format(createdDate);
+                String formattedDate =
+                    DateFormat.yMMMMEEEEd().format(createdDate);
 
                 if (index == 0) {
                   isSameDate = false;
@@ -64,7 +65,7 @@ class TransactionsListWidget extends StatelessWidget {
                   return GestureDetector(
                     onTap: () {
                       AppRouter.navigatorKey.currentState!.pushNamed(
-                          ScreenName.previewScreen,
+                          ScreenName.detailsScreen,
                           arguments: state.invoiceList[index].id.toString());
                     },
                     child: TransactionsItemBody(

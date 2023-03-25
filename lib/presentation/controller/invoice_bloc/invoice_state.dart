@@ -1,24 +1,25 @@
 part of 'invoice_bloc.dart';
 
-class InvoiceInitialState extends Equatable {
+class InvoiceSeccsuesState extends Equatable {
+  @override
+  List<Object> get props => [invoiceList, requestState];
+
+
   final List<InvoiceEntities> invoiceList;
   final RequestState requestState;
 
-  const InvoiceInitialState({
+  InvoiceSeccsuesState({
     this.invoiceList = const [],
     this.requestState = RequestState.loading,
   });
 
-  InvoiceInitialState copyWith({
+  InvoiceSeccsuesState copyWith({
     List<InvoiceEntities>? invoiceList,
     RequestState? requestState,
   }) {
-    return InvoiceInitialState(
+    return InvoiceSeccsuesState(
         invoiceList: invoiceList ?? this.invoiceList,
         requestState: requestState ?? this.requestState);
   }
-
-
-  @override
-  List<Object?> get props => [invoiceList];
 }
+

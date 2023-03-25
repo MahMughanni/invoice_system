@@ -30,3 +30,6 @@ class InvoiceEntities {
     return 'InvoiceEntities{client: $client, currency: $currency, fixed: $fixed, freelancer: $freelancer, subTotal: $subTotal, invoiceNo: $invoiceNo, status: $status, id: $id, createdAt: $createdAt}';
   }
 }
+
+
+

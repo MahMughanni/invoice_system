@@ -1,11 +1,15 @@
 import 'package:dio/dio.dart';
+import 'package:invoice_system/core/base_usecase/base_usecase.dart';
 import 'package:invoice_system/core/network/base_client.dart';
 import 'package:invoice_system/data/models/create_invoice_model.dart';
 import 'package:invoice_system/data/models/invoice_details_model.dart';
 import 'package:invoice_system/data/models/invoice_model.dart';
 import 'package:invoice_system/domain/entities/create_invoice_entities.dart';
 import 'package:invoice_system/domain/entities/fixed_entities.dart';
+import 'package:invoice_system/domain/entities/service_entities.dart';
+import 'package:invoice_system/domain/entities/transactions_entities.dart';
 import 'package:invoice_system/domain/usecase/create_new_invoice_usecase.dart';
+import 'package:invoice_system/domain/usecase/get_transaction_usecase.dart';
 import 'package:invoice_system/domain/usecase/invoice_details_usecase.dart';
 import 'package:invoice_system/presentation/controller/localData/shared_perf.dart';
 import 'package:invoice_system/utils/helper.dart';
@@ -13,6 +17,7 @@ import 'package:invoice_system/utils/helper.dart';
 import '../../core/error/exception.dart';
 import '../../core/network/api_constants.dart';
 import '../../core/network/app_exception.dart';
+import '../../domain/usecase/change_status_usecase.dart';
 import '../../domain/usecase/invoice_list_usecase.dart';
 import '../../domain/usecase/login_usecase.dart';
 import '../models/user_model.dart';
@@ -26,6 +31,13 @@ abstract class BaseInvoiceDataSource {
 
   Future<InvoiceDetailsModel> getInvoiceDetails(
       InvoiceDetailsParameter parameter);
+
+  Future<List<TransactionsEntities>> getTransaction(
+      TransactionParameter parameter);
+
+  Future<List<ServiceEntities>> getServiceList(NoParameters parameter);
+
+  Future<Response> changeStatusById(ChangeStatusParameter parameter);
 }
 
 class InvoiceDataSource extends BaseInvoiceDataSource {
@@ -87,16 +99,15 @@ class InvoiceDataSource extends BaseInvoiceDataSource {
   Future<String> createInvoice(CreateInvoiceParameter parameter) async {
     var clientData = parameter.createInvoiceEntities.client;
     var fixedData = parameter.createInvoiceEntities.fixed;
-    List<FixedEntities> fixedList = [
-      FixedEntities(
-          itemName: fixedData!.first.itemName.toString().trim(),
-          description: fixedData.first.description,
-          price: fixedData.first.price),
-      // FixedEntities(
-      //     itemName: fixedData.last.itemName.toString().trim(),
-      //     description: fixedData.last.description,
-      //     price: fixedData.last.price),
-    ];
+
+    List<FixedEntities> fixedList = fixedData!
+        .map(
+          (fixedItem) => FixedEntities(
+              itemName: fixedItem.itemName.toString() ?? '',
+              description: fixedItem.description.toString() ?? '',
+              price: fixedItem.price ?? 0),
+        )
+        .toList();
 
     final response = await BaseClient().post(
       EndPoints.createInvoice,
@@ -108,10 +119,9 @@ class InvoiceDataSource extends BaseInvoiceDataSource {
       ),
       data: {
         "client": {
-          "firstName": clientData!.firstName,
-          "lastName": clientData.lastName,
-          "email": clientData.email,
-          "address": {"country": clientData.address.country}
+          "fullName": clientData?.fullName ?? '',
+          "email": clientData?.email ?? '',
+          "address": {"country": parameter.createInvoiceEntities.client!.address.country}
         },
         "fixed": fixedList,
         "currency": parameter.currency
@@ -128,22 +138,67 @@ class InvoiceDataSource extends BaseInvoiceDataSource {
   }
 
   @override
+  Future<List<TransactionsEntities>> getTransaction(
+      TransactionParameter parameter) async {
+    final response = await BaseClient().get(
+      '${EndPoints.getTransactions}?type=$parameter',
+      options: Options(
+        headers: {
+          'Authorization':
+              'Bearer ${SharedPrefController().getUser().accessToken}'
+        },
+        validateStatus: (_) => true,
+        contentType: Headers.jsonContentType,
+        responseType: ResponseType.json,
+      ),
+    );
+    if (response.statusCode == 200) {
+      print(response.data['data']['transactions']);
+      return List.from((response.data['data']['transactions'] as List)
+          .map((e) => TransactionsEntities.fromJson(e)));
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+  @override
+  Future<List<ServiceEntities>> getServiceList(NoParameters parameter) async {
+    try {
+      final response =
+          await BaseClient().get(EndPoints.getServiceListing, options: options);
+      final data = response.data['data']['services'] as List;
+      return data.map((json) => ServiceEntities.fromJson(json)).toList();
+    } catch (e) {
+      throw Exception('Failed to fetch services: $e');
+    }
+  }
+
+  @override
   Future<InvoiceDetailsModel> getInvoiceDetails(
       InvoiceDetailsParameter parameter) async {
     final response = await BaseClient().get(
-      EndPoints.getInvoice(parameter.id.toString()),
+      EndPoints.getInvoiceById(parameter.id.toString()),
       options: options,
     );
-
     // print("API Response : ${response.data['data']}");
 
     if (response.statusCode == 200) {
-      // print("API Response : ${response.data}");
       return InvoiceDetailsModel.fromJson(response.data['data']['invoice']);
     } else {
       throw ServerExceptions(
         errorMessageModel: ErrorMessageModel(response.toString()),
       );
     }
+  }
+
+  @override
+  Future<Response> changeStatusById(ChangeStatusParameter parameter) async {
+    final response = BaseClient().post(
+      EndPoints.changeStatusById(parameter.id),
+      queryParameters: {"id": parameter.id},
+    );
+    print(response);
+
+    return response;
   }
 }

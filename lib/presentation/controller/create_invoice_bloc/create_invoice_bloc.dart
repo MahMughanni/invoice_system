@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:invoice_system/core/network/app_exception.dart';
 import 'package:invoice_system/domain/entities/create_invoice_entities.dart';
 import 'package:invoice_system/domain/usecase/create_new_invoice_usecase.dart';
 import 'package:meta/meta.dart';
@@ -31,7 +32,7 @@ class CreateInvoiceBloc extends Bloc<CreateEvent, CreateInvoiceSuccess> {
         currency: event.currency,
         createInvoiceEntities: event.createInvoiceEntities));
 
-    response.fold((l) => null, (r) {
+    response.fold((l) => DioExceptions(), (r) {
       emit(
         state.copyWIth(
           id: r,

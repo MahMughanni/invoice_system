@@ -10,6 +10,15 @@ class EndPoints {
   static const String getTransactions = '$baseUrl/transactions/list';
   static const String createInvoice = '$baseUrl/invoice/create';
   static const String invoiceDetails = '$baseUrl/invoice/';
+  static const String getServiceListing = '$baseUrl/service/listing';
+  static const String changeStatus = '$baseUrl/invoice/change-status/';
 
-  static String getInvoice(String invoiceId) => "$invoiceDetails/$invoiceId";
+  static const String invoiceServiceListing =
+      '$baseUrl/transactions/invoice-service-listing';
+
+  static String getInvoiceById(String invoiceId) =>
+      "$invoiceDetails/$invoiceId";
+
+  static String changeStatusById(String invoiceId) =>
+      "$changeStatus/$invoiceId";
 }

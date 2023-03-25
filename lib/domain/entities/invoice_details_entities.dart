@@ -128,8 +128,6 @@ class DetailsInvoiceClient {
       "email": email,
     };
   }
-
-//
 }
 
 class HistoryEntities {
@@ -161,5 +159,10 @@ class HistoryEntities {
       createdAt: json["createdAt"],
       updatedAt: json["updatedAt"],
     );
+  }
+
+  @override
+  String toString() {
+    return 'HistoryEntities{sId: $sId, type: $type, action: $action, status: $status, createdBy: $createdBy, createdAt: $createdAt, updatedAt: $updatedAt}';
   }
 }

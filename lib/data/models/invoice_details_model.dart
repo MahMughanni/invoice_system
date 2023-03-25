@@ -50,10 +50,8 @@ class InvoiceDetailsModel extends InvoiceDetailsEntities {
         status: json['status'],
         createdAt: json['createdAt'],
         updatedAt: json['updatedAt'],
-        history: json['history'] != null
-            ? json['history'].forEach((v) {
-                history.add(HistoryEntities.fromJson(v));
-              })
-            : []);
+        history: List.from(json['history'])
+            .map((e) => HistoryEntities.fromJson(e))
+            .toList());
   }
 }

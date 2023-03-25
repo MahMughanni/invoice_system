@@ -14,18 +14,26 @@ class CreateInvoiceEntities {
     this.currency,
     this.id,
   });
+
+  @override
+  String toString() {
+    return 'CreateInvoiceEntities{client: $client, fixed: $fixed, currency: $currency, id: $id}';
+  }
 }
 
 class CreateClientEntities {
-  late final String firstName;
-  late final String lastName;
+  late final String fullName;
   late final String email;
   late final AddressEntities address;
 
   CreateClientEntities({
-    required this.firstName,
-    required this.lastName,
+    required this.fullName,
     required this.email,
     required this.address,
   });
+
+  @override
+  String toString() {
+    return 'CreateClientEntities{fullName: $fullName, email: $email, address: $address}';
+  }
 }

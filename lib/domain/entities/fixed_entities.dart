@@ -8,7 +8,7 @@ class FixedEntities {
 
   late final String itemName;
   late final String description;
-  late final int price;
+  late final num price;
   final String? id;
 
   Map<String, dynamic> toJson() {

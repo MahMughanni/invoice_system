@@ -5,11 +5,12 @@ class CustomDropDown extends StatelessWidget {
   const CustomDropDown({
     super.key,
     required this.dropDownValue,
-    required this.items,
+    required this.items, this.onChanged,
   });
 
   final String dropDownValue;
   final List<String> items;
+   final Function(String?)? onChanged ;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +50,7 @@ class CustomDropDown extends StatelessWidget {
       }).toList(),
 
       // logic here
-      onChanged: (String? value) {},
+      onChanged: onChanged,
     );
   }
 }

@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:invoice_system/domain/entities/create_invoice_entities.dart';
 import 'package:invoice_system/main.dart';
 import 'package:invoice_system/presentation/screens/invoice_flow/create_invoice.dart';
 import 'package:invoice_system/presentation/screens/link_flow/create_link.dart';
 
 import '../../presentation/screens/home_screen.dart';
+import '../../presentation/screens/invoice_flow/ShowDetailsInvoiceScreen.dart';
+import '../../presentation/screens/invoice_flow/previewDetails_invoice_screen.dart';
 import '../../presentation/screens/invoice_flow/preview_invoice_screen.dart';
 import '../../presentation/screens/main_screen.dart';
+import '../../presentation/screens/shared_screens/InvoiceListTabsScreen.dart';
 import 'named_router.dart';
 
 class RouteGenerator {
   static Route<dynamic> onGenerateRoute(RouteSettings settings) {
-    var data = settings.arguments;
+    dynamic data = settings.arguments;
 
     Widget result;
     switch (settings.name) {
@@ -24,13 +28,29 @@ class RouteGenerator {
       case ScreenName.createLinkScreen:
         result = CreateLinkScreen();
         break;
+      case ScreenName.invoiceListTabsScreen:
+        result = const InvoiceListTabsScreen();
+        break;
+      case ScreenName.showDetailsInvoiceScreen:
+        result = ShowDetailsInvoiceScreen(
+          id: data,
+        );
+        break;
+      case ScreenName.detailsScreen:
+        result = InvoiceDetailsScreen(
+          id: data,
+        );
+        break;
+      // case ScreenName.linkStateScreen:
+      //   result = LinkStateScreen();
+      //   break;
 
       case ScreenName.mainScreen:
         result = const MainScreen();
         break;
       case ScreenName.previewScreen:
         result = PreviewScreen(
-          id: data as String,
+          createInvoiceEntities: data as CreateInvoiceEntities,
         );
         break;
       default:

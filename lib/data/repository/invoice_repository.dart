@@ -7,8 +7,12 @@ import 'package:invoice_system/data/datasource/invoice_data_source.dart';
 import 'package:invoice_system/domain/entities/client_entities.dart';
 import 'package:invoice_system/domain/entities/create_invoice_entities.dart';
 import 'package:invoice_system/domain/entities/invoice_entities.dart';
+import 'package:invoice_system/domain/entities/service_entities.dart';
+import 'package:invoice_system/domain/entities/transactions_entities.dart';
 import 'package:invoice_system/domain/repository/base_invoice_repository.dart';
+import 'package:invoice_system/domain/usecase/change_status_usecase.dart';
 import 'package:invoice_system/domain/usecase/create_new_invoice_usecase.dart';
+import 'package:invoice_system/domain/usecase/get_transaction_usecase.dart';
 import 'package:invoice_system/domain/usecase/invoice_details_usecase.dart';
 import 'package:invoice_system/domain/usecase/login_usecase.dart';
 
@@ -56,6 +60,42 @@ class InvoiceRepository extends BaseInvoiceRepository {
   Future<Either<Failure, InvoiceDetailsModel>> getInvoiceDetails(
       InvoiceDetailsParameter parameter) async {
     final response = await baseInvoiceDataSource.getInvoiceDetails(parameter);
+    try {
+      return right(response);
+    } on ServerExceptions catch (error) {
+      return Left(ServerFailure(error.errorMessageModel.error.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<TransactionsEntities>>> getTransaction(
+      TransactionParameter parameter) async {
+    final response = await baseInvoiceDataSource.getTransaction(parameter);
+
+    try {
+      return right(response);
+    } on ServerExceptions catch (error) {
+      return Left(ServerFailure(error.errorMessageModel.error.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<ServiceEntities>>> getServiceList(
+      NoParameters parameter) async {
+    final response = await baseInvoiceDataSource.getServiceList(parameter);
+
+    try {
+      return right(response);
+    } on ServerExceptions catch (error) {
+      return Left(ServerFailure(error.errorMessageModel.error.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Response>> changeStateById(
+      ChangeStatusParameter parameter) async {
+    final response = await baseInvoiceDataSource.changeStatusById(parameter);
+
     try {
       return right(response);
     } on ServerExceptions catch (error) {

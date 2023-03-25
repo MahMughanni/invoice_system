@@ -9,8 +9,7 @@ part 'invoice_details_event.dart';
 
 part 'invoice_details_state.dart';
 
-class InvoiceDetailsBloc
-    extends Bloc<InvoiceDetailsEvent, InvoiceDetailsState> {
+class InvoiceDetailsBloc extends Bloc<InvoiceDetailsEvent, InvoiceDetailsState> {
   GetInvoiceDetailsUseCase getInvoiceDetailsUseCase;
 
   InvoiceDetailsBloc(this.getInvoiceDetailsUseCase)
@@ -22,10 +21,16 @@ class InvoiceDetailsBloc
 
   FutureOr<void> _getInvoiceDetails(
       InvoiceDetailsEvent event, Emitter<InvoiceDetailsState> emit) async {
-    final response = await getInvoiceDetailsUseCase(InvoiceDetailsParameter(event.id));
+    final response =
+        await getInvoiceDetailsUseCase(InvoiceDetailsParameter(event.id));
 
-    print(response);
-    response.fold((l) => emit(FieldStatus()),
-        (r) => emit(state.copyWith(invoiceDetailsModel: r)));
+    response.fold(
+      (l) => emit(
+        FieldStatus(),
+      ),
+      (r) => emit(
+        state.copyWith(invoiceDetailsModel: r),
+      ),
+    );
   }
 }

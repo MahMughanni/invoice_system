@@ -17,6 +17,14 @@ class IconsManger {
   static const invoiceIcon = '$iconsPath/invoice.png';
   static const notificationIcon = '$iconsPath/notification.png';
   static const closeIcon = '$iconsPath/close.svg';
+  static String wallClock = '$iconsPath/wallClock.svg';
+  static String checked = '$iconsPath/checked.svg';
+  static String error = '$iconsPath/error.svg';
+  static String forbidden = '$iconsPath/forbidden.svg';
+  static String line = '$iconsPath/line.svg';
+  static String link = '$iconsPath/link.svg';
+  static String send = '$iconsPath/send.svg';
+  static String whatsUp = '$iconsPath/whatsup.svg';
 }
 
 class AppColor {
