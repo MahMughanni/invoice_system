@@ -12,7 +12,6 @@ import '../../../utils/helper.dart';
 import '../../controller/invoice_details_bloc/invoice_details_bloc.dart';
 import '../shared_widget/custom_button.dart';
 import '../shared_widget/main_container.dart';
-import '../widget/TimelineWidget.dart';
 import '../widget/shared_appbar.dart';
 
 class ShowDetailsInvoiceScreen extends StatelessWidget {

@@ -49,7 +49,7 @@ class InvoiceInTabScreen extends StatelessWidget {
               color: const Color(AppColor.white),
               borderRadius: BorderRadius.circular(7),
             ),
-            child: InvoiceListBody(),
+            child: const InvoiceListBody(),
           )
         ],
       ),
@@ -104,16 +104,13 @@ class InvoiceListBody extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      width: 150,
-                      child: Text(
-                        title,
-                        maxLines: 1,
-                        softWrap: false,
-                        overflow: TextOverflow.fade,
-                        style:
-                            const TextStyle(fontSize: AppSizes.textDefaultSize),
-                      ),
+                    Text(
+                      title,
+                      maxLines: 1,
+                      softWrap: false,
+                      overflow: TextOverflow.fade,
+                      style:
+                          const TextStyle(fontSize: AppSizes.textDefaultSize),
                     ),
                     SizedBox(
                       child: Text(

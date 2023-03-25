@@ -175,10 +175,10 @@ class BottomSheetBodyWidget extends StatelessWidget {
                     textColor: AppColor.primaryButtonColor,
                     textColorIsWhite: false,
                     onPressed: () {
-                      // AppRouter.navigatorKey.currentState!.pushNamed(
-                      //   ScreenName.showDetailsInvoiceScreen,
-                      //   arguments: data.sId ?? id,
-                      // );
+                       AppRouter.navigatorKey.currentState!.pushNamed(
+                         ScreenName.createLinkScreen,
+                         arguments: data.sId ?? id,
+                       );
                     },
                     width: 160,
                   ),

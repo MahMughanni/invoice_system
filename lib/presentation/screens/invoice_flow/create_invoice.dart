@@ -4,7 +4,6 @@ import 'package:invoice_system/core/services/services_locator.dart';
 import 'package:invoice_system/domain/entities/address_entities.dart';
 import 'package:invoice_system/domain/entities/create_invoice_entities.dart';
 import 'package:invoice_system/domain/entities/fixed_entities.dart';
-import 'package:invoice_system/presentation/controller/create_invoice_bloc/create_invoice_bloc.dart';
 import 'package:invoice_system/presentation/screens/widget/custom_button.dart';
 import 'package:invoice_system/presentation/screens/widget/custom_dropdown.dart';
 import 'package:invoice_system/presentation/screens/widget/shared_appbar.dart';
@@ -13,7 +12,6 @@ import 'package:invoice_system/utils/extentions/string_validate_extention.dart';
 
 import '../../../core/routes/app_router.dart';
 import '../../../core/routes/named_router.dart';
-import '../../../utils/helper.dart';
 import '../../controller/cubit/add_fixed_item_cubit.dart';
 import '../widget/custom_Text_field.dart';
 
@@ -101,219 +99,215 @@ class _CreateInvoiceBodyState extends State<CreateInvoiceBody> {
                     vertical: AppSizes.paddingVertival),
                 child: ListView(
                   children: [
-                    Column(
+                    const Text(
+                      'Client Information',
+                      style: TextStyle(
+                        color: Color(AppColor.gray),
+                        fontSize: AppSizes.textDefaultSize,
+                      ),
+                    ),
+                    const SizedBox(height: 9),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text(
-                          'Client Information',
-                          style: TextStyle(
-                            color: Color(AppColor.gray),
-                            fontSize: AppSizes.textDefaultSize,
+                        Expanded(
+                            child: CustomTextFormField(
+                          validator: (value) {
+                            if (!value!.isValidName) {
+                              return 'enter valid name';
+                            }
+                          },
+                          controller: firstNameController,
+                          hintText: 'First name',
+                          keyboardType: TextInputType.text,
+                        )),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                            child: CustomTextFormField(
+                          validator: (value) {
+                            if (!value!.isValidName) {
+                              return 'enter valid name';
+                            }
+                          },
+                          controller: lastNameController,
+                          hintText: 'Last name',
+                          keyboardType: TextInputType.text,
+                        ))
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    CustomTextFormField(
+                        validator: (value) {
+                          if (!value!.isValidEmail) {
+                            return 'enter valid email';
+                          }
+                        },
+                        controller: emailController,
+                        hintText: 'Email',
+                        keyboardType: TextInputType.emailAddress),
+                    const SizedBox(height: 8),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          flex: 2,
+                          child: CustomDropDown(
+                              onChanged: (String? v) {},
+                              dropDownValue: countryList.first,
+                              items: countryList),
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: CustomDropDown(
+                            onChanged: (String? v) {},
+                            dropDownValue: currencyList.first,
+                            items: currencyList,
                           ),
                         ),
-                        const SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                                child: CustomTextFormField(
-                              validator: (value) {
-                                if (!value!.isValidName) {
-                                  return 'enter valid name';
-                                }
+                      ],
+                    ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: items.length,
+                      itemBuilder: (context, index) => index == 0
+                          ? ContentToAddService(
+                              jobTitleController: jobTitleController,
+                              priceController: priceController,
+                              descriptionController: descriptionController,
+                              onPressed: () {
+                                context
+                                    .read<AddFixedItemCubit>()
+                                    .delete(index);
                               },
-                              controller: firstNameController,
-                              hintText: 'First name',
-                              keyboardType: TextInputType.text,
-                            )),
-                            const SizedBox(
-                              width: 10,
-                            ),
-                            Expanded(
-                                child: CustomTextFormField(
-                              validator: (value) {
-                                if (!value!.isValidName) {
-                                  return 'enter valid name';
-                                }
-                              },
-                              controller: lastNameController,
-                              hintText: 'Last name',
-                              keyboardType: TextInputType.text,
-                            ))
-                          ],
-                        ),
-                        const SizedBox(height: 8),
-                        CustomTextFormField(
-                            validator: (value) {
-                              if (!value!.isValidEmail) {
-                                return 'enter valid email';
-                              }
-                            },
-                            controller: emailController,
-                            hintText: 'Email',
-                            keyboardType: TextInputType.emailAddress),
-                        const SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              flex: 2,
-                              child: CustomDropDown(
-                                  onChanged: (String? v) {},
-                                  dropDownValue: countryList.first,
-                                  items: countryList),
-                            ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: CustomDropDown(
-                                onChanged: (String? v) {},
-                                dropDownValue: currencyList.first,
-                                items: currencyList,
-                              ),
-                            ),
-                          ],
-                        ),
-                        ListView.builder(
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemCount: items.length,
-                          itemBuilder: (context, index) => index == 0
+                            )
+                          : index == 1
                               ? ContentToAddService(
-                                  jobTitleController: jobTitleController,
-                                  priceController: priceController,
-                                  descriptionController: descriptionController,
+                                  jobTitleController: jobTitleController1,
+                                  descriptionController:
+                                      descriptionController1,
+                                  priceController: priceController1,
                                   onPressed: () {
                                     context
                                         .read<AddFixedItemCubit>()
                                         .delete(index);
                                   },
                                 )
-                              : index == 1
+                              : index == 2
                                   ? ContentToAddService(
-                                      jobTitleController: jobTitleController1,
+                                      jobTitleController:
+                                          jobTitleController2,
                                       descriptionController:
-                                          descriptionController1,
-                                      priceController: priceController1,
+                                          descriptionController2,
+                                      priceController: priceController2,
                                       onPressed: () {
                                         context
                                             .read<AddFixedItemCubit>()
                                             .delete(index);
                                       },
                                     )
-                                  : index == 2
-                                      ? ContentToAddService(
-                                          jobTitleController:
-                                              jobTitleController2,
-                                          descriptionController:
-                                              descriptionController2,
-                                          priceController: priceController2,
-                                          onPressed: () {
-                                            context
-                                                .read<AddFixedItemCubit>()
-                                                .delete(index);
-                                          },
-                                        )
-                                      : index == 3
-                                          ? const Center(
-                                              child: Text(
-                                              'This is limited to add Service',
-                                              style: TextStyle(
-                                                  fontSize:
-                                                      AppSizes.textDefaultSize,
-                                                  color: Color(
-                                                      AppColor.redWarning)),
-                                            ))
-                                          : Container(),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            context.read<AddFixedItemCubit>().increment();
-                          },
-                          child: const Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text('+ Add item or service'),
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        CustomMainButton(
-                          title: 'Preview Invoice',
-                          isBorder: false,
-                          textColorIsWhite: true,
-                          onPressed: () {
-                            createInvoiceEntities = CreateInvoiceEntities(
-                                client: CreateClientEntities(
-                                    fullName:
-                                        '${firstNameController.text.toString().trim()}  ${lastNameController.text.toString().trim()}',
-                                    email:
-                                        emailController.text.toString().trim(),
-                                    address: AddressEntities(
-                                        country: countryList.first)),
-                                fixed: itemsList);
+                                  : index == 3
+                                      ? const Center(
+                                          child: Text(
+                                          'This is limited to add Service',
+                                          style: TextStyle(
+                                              fontSize:
+                                                  AppSizes.textDefaultSize,
+                                              color: Color(
+                                                  AppColor.redWarning)),
+                                        ))
+                                      : Container(),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        context.read<AddFixedItemCubit>().increment();
+                      },
+                      child: const Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text('+ Add item or service'),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    CustomMainButton(
+                      title: 'Preview Invoice',
+                      isBorder: false,
+                      textColorIsWhite: true,
+                      onPressed: () {
+                        createInvoiceEntities = CreateInvoiceEntities(
+                            client: CreateClientEntities(
+                                fullName:
+                                    '${firstNameController.text.toString().trim()}  ${lastNameController.text.toString().trim()}',
+                                email:
+                                    emailController.text.toString().trim(),
+                                address: AddressEntities(
+                                    country: countryList.first)),
+                            fixed: itemsList);
 
-                            if (_formKey.currentState!.validate()) {
-                              final fixedItem = FixedEntities(
-                                itemName: jobTitleController.text.toString(),
-                                description:
-                                    descriptionController.text.toString(),
-                                price: int.tryParse(priceController.text) ?? 0,
-                              );
+                        if (_formKey.currentState!.validate()) {
+                          final fixedItem = FixedEntities(
+                            itemName: jobTitleController.text.toString(),
+                            description:
+                                descriptionController.text.toString(),
+                            price: int.tryParse(priceController.text) ?? 0,
+                          );
 
-                              createInvoiceEntities.fixed!.add(fixedItem);
-                            }
-                            if (_formKey.currentState!.validate()) {
-                              createInvoiceEntities = CreateInvoiceEntities(
-                                client: CreateClientEntities(
-                                  fullName:
-                                      '${firstNameController.text.toString().trim()}  ${lastNameController.text.toString().trim()}',
-                                  email: emailController.text.toString().trim(),
-                                  address: AddressEntities(
-                                      country: countryList.first),
-                                ),
-                                fixed: [
-                                  FixedEntities(
-                                      itemName:
-                                          jobTitleController.text.toString() ??
-                                              '',
-                                      description: descriptionController.text
-                                              .toString() ??
+                          createInvoiceEntities.fixed!.add(fixedItem);
+                        }
+                        if (_formKey.currentState!.validate()) {
+                          createInvoiceEntities = CreateInvoiceEntities(
+                            client: CreateClientEntities(
+                              fullName:
+                                  '${firstNameController.text.toString().trim()}  ${lastNameController.text.toString().trim()}',
+                              email: emailController.text.toString().trim(),
+                              address: AddressEntities(
+                                  country: countryList.first),
+                            ),
+                            fixed: [
+                              FixedEntities(
+                                  itemName:
+                                      jobTitleController.text.toString() ??
                                           '',
-                                      price:
-                                          int.tryParse(priceController.text) ??
-                                              0),
-                                  FixedEntities(
-                                      itemName:
-                                          jobTitleController1.text.toString() ??
-                                              '',
-                                      description: descriptionController1.text
-                                              .toString() ??
+                                  description: descriptionController.text
+                                          .toString() ??
+                                      '',
+                                  price:
+                                      int.tryParse(priceController.text) ??
+                                          0),
+                              FixedEntities(
+                                  itemName:
+                                      jobTitleController1.text.toString() ??
                                           '',
-                                      price:
-                                          int.tryParse(priceController1.text) ??
-                                              0),
-                                  FixedEntities(
-                                    itemName:
-                                        jobTitleController2.text.toString() ??
-                                            '',
-                                    description: descriptionController2.text
-                                            .toString() ??
+                                  description: descriptionController1.text
+                                          .toString() ??
+                                      '',
+                                  price:
+                                      int.tryParse(priceController1.text) ??
+                                          0),
+                              FixedEntities(
+                                itemName:
+                                    jobTitleController2.text.toString() ??
                                         '',
-                                    price:
-                                        int.tryParse(priceController2.text) ??
-                                            0,
-                                  ),
-                                ],
-                              );
+                                description: descriptionController2.text
+                                        .toString() ??
+                                    '',
+                                price:
+                                    int.tryParse(priceController2.text) ??
+                                        0,
+                              ),
+                            ],
+                          );
 
-                              // print (state)
-                              Future.delayed(const Duration(milliseconds: 500),
-                                  () {
-                                AppRouter.navigatorKey.currentState!.pushNamed(
-                                    ScreenName.previewScreen,
-                                    arguments: createInvoiceEntities);
-                              });
-                            }
-                          },
-                        )
-                      ],
+                          // print (state)
+                          Future.delayed(const Duration(milliseconds: 500),
+                              () {
+                            AppRouter.navigatorKey.currentState!.pushNamed(
+                                ScreenName.previewScreen,
+                                arguments: createInvoiceEntities);
+                          });
+                        }
+                      },
                     )
                   ],
                 )),

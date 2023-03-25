@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:invoice_system/core/services/services_locator.dart';
 import 'package:invoice_system/presentation/controller/service_bloc/service_bloc.dart';
 import 'package:invoice_system/presentation/screens/widget/SearchBar.dart';
